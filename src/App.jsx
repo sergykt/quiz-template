@@ -6,16 +6,23 @@ import {
   useLocation,
 } from 'react-router-dom';
 
+import Header from './components/Header';
 import Quiz from "./pages/Quiz";
 import QuestionManager from './pages/QuestionManager';
+import Starter from './pages/Starter';
 
 const App = () => (
   <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<Quiz />} />
-      <Route path="/manager" element={<QuestionManager/>} />
-    </Routes>
+    <Header />
+    <main className="main">
+      <Routes>
+        <Route path="/" element={<Starter />} />
+        <Route path="/quiz" element={<Quiz />} />
+        <Route path="/edit" element={<QuestionManager />} />
+      </Routes>
+    </main>
   </BrowserRouter>
+
 );
 
 export default App;

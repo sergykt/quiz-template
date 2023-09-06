@@ -9,7 +9,11 @@ const finalResults = {
 };
 
 const Quiz = () => {
-  const [questions, setQuestions] = useState(null);
+  const [questions, setQuestions] = useState([]);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
+  const [wrongAnswers, setWrongAnswers] = useState([]);
+  const [result, setResult] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,34 +28,24 @@ const Quiz = () => {
     fetchData();
   }, []);
 
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [userAnswers, setUserAnswers] = useState([]);
-  const [wrongQuestions, setWrongQuestions] = useState([]);
-  const [result, setResult] = useState(null);
-
-  if (questions === null) {
-    return null;
-  }
-
   const handleAnswer = (answer) => {
-    const currentQuestion = questions[currentQuestionIndex];
-    const isCorrect = answer === currentQuestion.answer;
-
-    setUserAnswers([...userAnswers, isCorrect]);
-    if (!isCorrect) {
-      const wrongAnswer = { ...currentQuestion, userAnswer: answer };
-      setWrongQuestions([...wrongQuestions, wrongAnswer]);
+    if (answer === currentQuestion.answer) {
+      setCorrectAnswersCount(correctAnswersCount + 1);
+      setResult('Правильно!');
+    } else {
+      const wrongAnswer = { ...currentQuestion, userAnswer: answer, index: currentQuestionIndex };
+      setWrongAnswers([...wrongAnswers, wrongAnswer]);
+      setResult('Неправильно!');
     }
     setCurrentQuestionIndex(currentQuestionIndex + 1);
-    setResult(isCorrect ? 'Правильно!' : 'Неправильно!');
   };
 
-  const renderOptions = (options) => options.map((item, index) => 
-    <button key={index} className="button" onClick={() => handleAnswer(item)}>{item}</button>);
+  const renderOptions = (options) => options.map((item, index) =>
+    <button key={index} className="button quiz__button" onClick={() => handleAnswer(item)}>{item}</button>);
 
   const renderRecommendations = (questions) => questions.map((item) => (
-    <div key={item.id}>
-      <p className="recommendation">{item.id}. {item.text}</p>
+    <div key={item.index}>
+      <p className="recommendation">{item.index + 1}. {item.text}</p>
       <p className="recommendation">Ваш ответ: <span className="text-bold">{item.userAnswer}</span></p>
       <p className="recommendation">Правильный ответ: <span className="text-bold">{item.answer}</span></p>
       <p className="recommendation">{item.recommendation}</p>
@@ -61,9 +55,9 @@ const Quiz = () => {
   const currentQuestion = questions[currentQuestionIndex];
 
   if (currentQuestionIndex >= questions.length) {
-    const correctAnswers = userAnswers.filter((answer) => answer).length;
-    const percentage = correctAnswers / questions.length * 100;
+    const percentage = correctAnswersCount / questions.length * 100;
     let finalResult;
+
     if (percentage >= 75) {
       finalResult = finalResults.good;
     } else if (percentage >= 50) {
@@ -73,20 +67,24 @@ const Quiz = () => {
     }
 
     return (
-      <div>
-        <p className="question">Вопросы закончились</p>
-        <p className="result">Правильных ответов: {correctAnswers}</p>
-        <p className="result">Результат: {finalResult}</p>
-        {renderRecommendations(wrongQuestions)}
+      <div className="quiz">
+        <div className="container">
+          <p className="question">Вопросы закончились</p>
+          <p className="result">Правильных ответов: {correctAnswersCount}</p>
+          <p className="result">Результат: {finalResult}</p>
+          {renderRecommendations(wrongAnswers)}
+        </div>
       </div>
     );
   }
 
   return (
-    <div>
-      <p className='question'>Вопрос №{currentQuestionIndex + 1}. {currentQuestion.text}</p>
-      {renderOptions(currentQuestion.options)}
-      {result && <p className="result">{result}</p>}
+    <div className="quiz">
+      <div className="container">
+        <p className='question'>Вопрос №{currentQuestionIndex + 1}. {currentQuestion?.text}</p>
+        {renderOptions(currentQuestion?.options)}
+        {result && <p className="result">{result}</p>}
+      </div>
     </div>
   );
 };
