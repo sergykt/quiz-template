@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 import routes from '../routes';
 
@@ -29,6 +30,11 @@ const QuestionManager = () => {
         setCategories(newCategories);
       } catch (err) {
         console.log(err);
+        if (err.response.status === 500) {
+          toast.error('Ошибка подключения');
+        } else {
+          toast.error('Что-то пошло не так');
+        }
       }
     }
 

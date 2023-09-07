@@ -2,9 +2,10 @@ import {
   BrowserRouter,
   Routes,
   Route,
-  Navigate,
-  useLocation,
 } from 'react-router-dom';
+
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Header from './components/Header';
 import Quiz from "./pages/Quiz";
@@ -21,8 +22,8 @@ const App = () => (
         <Route path="/edit" element={<QuestionManager />} />
       </Routes>
     </main>
+    <ToastContainer />
   </BrowserRouter>
-
 );
 
 export default App;

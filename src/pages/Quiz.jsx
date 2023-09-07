@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { toast } from 'react-toastify';
+
 import routes from "../routes";
 
 const finalResults = {
@@ -22,6 +24,11 @@ const Quiz = () => {
         setQuestions(response.data);
       } catch (err) {
         console.log(err);
+        if (err.response.status === 500) {
+          toast.error('Ошибка подключения');
+        } else {
+          toast.error('Что-то пошло не так');
+        }
       }
     }
 
@@ -51,6 +58,10 @@ const Quiz = () => {
       <p className="recommendation">{item.recommendation}</p>
     </div>
   ));
+
+  if (questions.length === 0) {
+    return null;
+  }
 
   const currentQuestion = questions[currentQuestionIndex];
 

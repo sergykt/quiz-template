@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 import routes from '../routes';
 
@@ -13,8 +14,10 @@ const QuestionList = ({ questions, setManagerMenu, setTargetQuestionId, setQuest
       const response = await axios.delete(routes.questionsPath(id));
       console.log(response.status);
       setQuestions(questions.filter((item) => item.id !== id));
+      toast.success('Вопрос удален');
     } catch (err) {
       console.log(err);
+      toast.error('Что-то пошло не так');
     }
   };
 

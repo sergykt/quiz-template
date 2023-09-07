@@ -1,6 +1,7 @@
 import { useFormik } from 'formik';
 import axios from 'axios';
 import * as Yup from 'yup';
+import { toast } from 'react-toastify';
 
 import routes from '../routes';
 
@@ -13,7 +14,7 @@ const validationSchema = Yup.object({
   recommendation: Yup.string().trim().required('Это поле обязательно'),
 });
 
-const QuestionAddForm = ({ categories, setManagerMenu }) => {
+const QuestionAddForm = ({ questions, categories, setManagerMenu, setQuestions }) => {
   const formik = useFormik({
     initialValues: {
       text: '',
@@ -27,11 +28,12 @@ const QuestionAddForm = ({ categories, setManagerMenu }) => {
       try {
         const response = await axios.post(routes.questionsPath(), values);
         console.log(response.status);
+        setQuestions([...questions, response.data]);
+        toast.success('Вопрос добавлен');
         resetForm();
       } catch (err) {
-        if (err.response?.status === 400) {
-          console.log(err);
-        }
+        console.log(err);
+        toast.error('Что-то пошло не так');
       }
     },
   });

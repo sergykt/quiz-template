@@ -1,6 +1,7 @@
 import { useFormik } from 'formik';
 import axios from 'axios';
 import * as Yup from 'yup';
+import { toast } from 'react-toastify';
 
 import routes from '../routes';
 
@@ -13,7 +14,7 @@ const validationSchema = Yup.object({
   recommendation: Yup.string().trim().required('Это поле обязательно'),
 });
 
-const QuestionEditForm = ({ questions, categories, setManagerMenu, targetQuestionId }) => {
+const QuestionEditForm = ({ questions, categories, setManagerMenu, targetQuestionId, setQuestions }) => {
   const currentQuestion = questions.find((item) => item.id === targetQuestionId);
   const wrongAnswer = currentQuestion.options.find((item) => item !== currentQuestion.answer);
 
@@ -30,10 +31,11 @@ const QuestionEditForm = ({ questions, categories, setManagerMenu, targetQuestio
       try {
         const response = await axios.put(routes.questionsPath(targetQuestionId), values);
         console.log(response.status);
+        setQuestions(questions.map((item) => item.id === targetQuestionId ? response.data : item));
+        toast.success('Вопрос изменен');
       } catch (err) {
-        if (err.response?.status === 400) {
-          console.log(err);
-        }
+        console.log(err);
+        toast.error('Что-то пошло не так');
       }
     },
   });
