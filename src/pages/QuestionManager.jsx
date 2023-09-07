@@ -9,21 +9,24 @@ import QuestionEditForm from "../components/QuestionEdit";
 
 const mapping = {
   adding: QuestionAddForm,
-  renaming: QuestionEditForm,
+  editing: QuestionEditForm,
   main: QuestionList,
 };
 
 const QuestionManager = () => {
   const [managerMenu, setManagerMenu] = useState('main');
   const [questions, setQuestions] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [targetQuestionId, setTargetQuestionId] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        console.log('fetch');
         const response = await axios.get(routes.dataPath());
-        setQuestions(response.data);
-        console.log(response.data);
+        const { data: { questions: newQuestions, categories: newCategories } } = response;
+        setQuestions(newQuestions);
+        setCategories(newCategories);
       } catch (err) {
         console.log(err);
       }
@@ -36,7 +39,14 @@ const QuestionManager = () => {
 
   return (
     <div className="editor">
-      <ManagerForm questions={questions} setManagerMenu={setManagerMenu} />
+      <ManagerForm 
+        questions={questions}
+        categories={categories}
+        setManagerMenu={setManagerMenu}
+        setTargetQuestionId={setTargetQuestionId}
+        targetQuestionId={targetQuestionId}
+        setQuestions={setQuestions}
+      />
     </div>
   );
 };

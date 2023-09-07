@@ -18,7 +18,7 @@ const Quiz = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(routes.dataPath());
+        const response = await axios.get(routes.quizPath());
         setQuestions(response.data);
       } catch (err) {
         console.log(err);

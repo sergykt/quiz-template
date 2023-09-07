@@ -8,6 +8,11 @@ a {
   text-decoration: none;
 }
 
+p {
+  margin: 0;
+  padding: 0;
+}
+
 .body {
   font-family: Arial, Arial, Helvetica, sans-serif;
   color: var(--dark-color);
@@ -34,12 +39,18 @@ a {
 .text {
   margin: 0 0 1.15em 0;
   padding: 0;
+  font-size: 16px;
+  line-height: 1.5;
 }
 
 .list {
   padding: 0 0 0 30px;
   margin: 0;
+}
+
+.list > li {
   font-size: 16px;
+  line-height: 1.5;
 }
 
 .navbar__list {
@@ -76,6 +87,7 @@ a {
 .question {
   font-size: 24px;
   font-weight: 700;
+  margin-bottom: 30px;
 }
 
 .button {
@@ -99,11 +111,13 @@ a {
 .result {
   font-size: 20px;
   font-weight: 400;
+  margin-bottom: 1em;
 }
 
 .recommendation {
   font-size: 18px;
   font-weight: 400;
+  margin-bottom: 1em;
 }
 
 .text-bold {
@@ -119,6 +133,7 @@ a {
   margin: 0;
   display: flex;
   flex-direction: column;
+  gap: 15px;
 }
 
 .questions-list__add-button {
@@ -138,7 +153,12 @@ a {
   flex: 1 1 500px;
 }
 
-.questions-list__item-button {
+.questions-list__button-group {
+  display: flex;
+  gap: 10px;
+}
+
+.questions-list__button {
   margin: 0;
 }
 
@@ -148,13 +168,14 @@ a {
 
 .quiz__button:not(:last-child) {
   margin-right: 20px;
+  margin-bottom: 20px;
 }
 
 .form {
   padding: 30px 0;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 10px;
 }
 
 .form__title {
@@ -165,18 +186,16 @@ a {
 
 .form__control {
   display: flex;
-  flex-wrap: wrap;
-  gap: 15px 30px;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .form__label {
-  flex: 0 1 200px;
   font-size: 16px;
 }
 
 .form__input {
   border: 1px solid grey;
-  flex: 1 1 760px;
   padding: 8px 16px;
   border-radius: 8px;
   color: var(--dark-color);
@@ -187,6 +206,21 @@ a {
 .form__input:focus {
   border-color: var(--light-blue);
   box-shadow: 0 0 2px 2px var(--light-blue);
+}
+
+.form__select {
+  border: 1px solid grey;
+  padding: 8px 16px;
+  border-radius: 8px;
+  color: var(--dark-color);
+  font-size: 16px;
+  line-height: 1.15;
+}
+
+.invalid-tooltip {
+  font-size: 14px;
+  color: red;
+  align-self: flex-start;
 }
 
 .form__button {
