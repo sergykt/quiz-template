@@ -93,7 +93,9 @@ const Quiz = () => {
     <div className="quiz">
       <div className="container">
         <p className='question'>Вопрос №{currentQuestionIndex + 1}. {currentQuestion?.text}</p>
-        {renderOptions(currentQuestion?.options)}
+        <div className='quiz__button-group'>
+          {renderOptions(currentQuestion?.options)}
+        </div>
         {result && <p className="result">{result}</p>}
       </div>
     </div>

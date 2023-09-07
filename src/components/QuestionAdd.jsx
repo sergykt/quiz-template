@@ -53,7 +53,7 @@ const QuestionAddForm = ({ questions, categories, setManagerMenu, setQuestions }
             value={formik.values.category}
           >
             {categories.map((item) => (
-              <option key={item.id}>{item.text}</option>)
+              <option key={item.id} value={item.text}>{item.text}</option>)
             )}
           </select>
         </div>

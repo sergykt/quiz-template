@@ -28,6 +28,7 @@ p {
 }
 
 .header {
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.075) ;
 }
 
 .title {
@@ -166,13 +167,19 @@ p {
   padding-top: 30px;
 }
 
-.quiz__button:not(:last-child) {
-  margin-right: 20px;
+.quiz__button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
   margin-bottom: 20px;
 }
 
+.quiz__button {
+  align-self: flex-start;
+}
+
 .form {
-  padding: 30px 0;
+  padding: 30px 0 10px 0;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -215,6 +222,11 @@ p {
   color: var(--dark-color);
   font-size: 16px;
   line-height: 1.15;
+}
+
+.form__select:focus {
+  border-color: var(--light-blue);
+  box-shadow: 0 0 2px 2px var(--light-blue);
 }
 
 .invalid-tooltip {
