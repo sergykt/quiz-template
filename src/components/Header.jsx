@@ -6,7 +6,7 @@ const Header = () => {
           <ul className="navbar__list">
             <li>
               <a href="/" className="navbar__link">
-                <img className="logo" src="/quiz-logo.png" alt="logo" />
+                <img className="logo" src="/img/quiz-logo.png" alt="logo" />
               </a>
             </li>
             <li>

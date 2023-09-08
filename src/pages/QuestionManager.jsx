@@ -47,11 +47,11 @@ const QuestionManager = () => {
     <div className="editor">
       <ManagerForm 
         questions={questions}
+        setQuestions={setQuestions}
         categories={categories}
         setManagerMenu={setManagerMenu}
-        setTargetQuestionId={setTargetQuestionId}
         targetQuestionId={targetQuestionId}
-        setQuestions={setQuestions}
+        setTargetQuestionId={setTargetQuestionId}
       />
     </div>
   );

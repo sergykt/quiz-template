@@ -11,15 +11,18 @@ import Header from './components/Header';
 import Quiz from "./pages/Quiz";
 import QuestionManager from './pages/QuestionManager';
 import Starter from './pages/Starter';
+import PageNotFound from './pages/PageNotFound';
 
 const App = () => (
   <BrowserRouter>
     <Header />
     <main className="main">
       <Routes>
+        <Route path="/*" element={<PageNotFound />} />
         <Route path="/" element={<Starter />} />
         <Route path="/quiz" element={<Quiz />} />
         <Route path="/edit" element={<QuestionManager />} />
+
       </Routes>
     </main>
     <ToastContainer />

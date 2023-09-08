@@ -4,6 +4,8 @@ import { toast } from 'react-toastify';
 import routes from '../routes';
 
 const QuestionList = ({ questions, setManagerMenu, setTargetQuestionId, setQuestions }) => {
+  const addActions = () => setManagerMenu('adding');
+
   const editAction = (id) => {
     setTargetQuestionId(id);
     setManagerMenu('editing');
@@ -46,7 +48,7 @@ const QuestionList = ({ questions, setManagerMenu, setTargetQuestionId, setQuest
 
   return (
     <div className="container">
-      <button className="button questions-list__add-button" onClick={() => setManagerMenu('adding')}>
+      <button className="button questions-list__add-button" onClick={() => addActions()}>
         Добавить
       </button>
       {renderQuestionsList(questions)}

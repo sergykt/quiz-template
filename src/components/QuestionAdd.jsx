@@ -14,7 +14,7 @@ const validationSchema = Yup.object({
   recommendation: Yup.string().trim().required('Это поле обязательно'),
 });
 
-const QuestionAddForm = ({ questions, categories, setManagerMenu, setQuestions }) => {
+const QuestionAddForm = ({ questions, categories }) => {
   const formik = useFormik({
     initialValues: {
       text: '',
@@ -28,7 +28,6 @@ const QuestionAddForm = ({ questions, categories, setManagerMenu, setQuestions }
       try {
         const response = await axios.post(routes.questionsPath(), values);
         console.log(response.status);
-        setQuestions([...questions, response.data]);
         toast.success('Вопрос добавлен');
         resetForm();
       } catch (err) {
@@ -119,7 +118,9 @@ const QuestionAddForm = ({ questions, categories, setManagerMenu, setQuestions }
         )}
         <button className="button form__button" type="submit">Отправить</button>
       </form>
-      <button className="button" onClick={() => setManagerMenu('main')}>Вернуться</button>
+      <a href="/edit">
+        <button className="button">Вернуться</button>
+      </a>
     </div>
   );
 };

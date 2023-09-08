@@ -14,7 +14,7 @@ const validationSchema = Yup.object({
   recommendation: Yup.string().trim().required('Это поле обязательно'),
 });
 
-const QuestionEditForm = ({ questions, categories, setManagerMenu, targetQuestionId, setQuestions }) => {
+const QuestionEditForm = ({ questions, categories, targetQuestionId }) => {
   const currentQuestion = questions.find((item) => item.id === targetQuestionId);
   const wrongAnswer = currentQuestion.options.find((item) => item !== currentQuestion.answer);
 
@@ -31,7 +31,6 @@ const QuestionEditForm = ({ questions, categories, setManagerMenu, targetQuestio
       try {
         const response = await axios.put(routes.questionsPath(targetQuestionId), values);
         console.log(response.status);
-        setQuestions(questions.map((item) => item.id === targetQuestionId ? response.data : item));
         toast.success('Вопрос изменен');
       } catch (err) {
         console.log(err);
@@ -121,7 +120,9 @@ const QuestionEditForm = ({ questions, categories, setManagerMenu, targetQuestio
         )}
         <button className="button form__button" type="submit">Отправить</button>
       </form>
-      <button className="button" onClick={() => setManagerMenu('main')}>Вернуться</button>
+      <a href="/edit">
+        <button className="button">Вернуться</button>
+      </a>
     </div>
   );
 };

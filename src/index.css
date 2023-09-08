@@ -239,3 +239,23 @@ p {
   max-width: 150px;
   align-self: flex-start;
 }
+
+.page-not-found {
+  padding-top: 50px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.page-not-found__img {
+  width: 300px;
+  height: 300px;
+}
+
+.page-not-found__title {
+  font-size: 20px;
+  line-height: 1.2;
+  font-weight: 400;
+}
