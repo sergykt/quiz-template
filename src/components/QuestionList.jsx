@@ -13,13 +13,22 @@ const QuestionList = ({ questions, setManagerMenu, setTargetQuestionId, setQuest
 
   const deleteAction = async (id) => {
     try {
-      const response = await axios.delete(routes.questionsPath(id));
-      console.log(response.status);
+      await axios.delete(routes.questionsPath(id));
       setQuestions(questions.filter((item) => item.id !== id));
       toast.success('Вопрос удален');
     } catch (err) {
       console.log(err);
-      toast.error('Что-то пошло не так');
+      if (err.response.status === 400) {
+        if (err.response.data.error === 'This Question Already Deleted') {
+          toast.error('Данный вопрос не существует');
+        } else {
+          toast.error('Невалидные данные');
+        }
+      } else if (err.response.status === 500) {
+        toast.error('Внутренняя ошибка сервера');
+      } else {
+        toast.error('Что-то пошло не так, проверьте соединение');
+      }
     }
   };
 

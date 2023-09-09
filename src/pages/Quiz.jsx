@@ -15,7 +15,6 @@ const Quiz = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
   const [wrongAnswers, setWrongAnswers] = useState([]);
-  const [result, setResult] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,9 +24,9 @@ const Quiz = () => {
       } catch (err) {
         console.log(err);
         if (err.response.status === 500) {
-          toast.error('Ошибка подключения');
+          toast.error('Внутренняя ошибка сервера');
         } else {
-          toast.error('Что-то пошло не так');
+          toast.error('Что-то пошло не так, проверьте соединение');
         }
       }
     }
@@ -38,11 +37,9 @@ const Quiz = () => {
   const handleAnswer = (answer) => {
     if (answer === currentQuestion.answer) {
       setCorrectAnswersCount(correctAnswersCount + 1);
-      setResult('Правильно!');
     } else {
       const wrongAnswer = { ...currentQuestion, userAnswer: answer, index: currentQuestionIndex };
       setWrongAnswers([...wrongAnswers, wrongAnswer]);
-      setResult('Неправильно!');
     }
     setCurrentQuestionIndex(currentQuestionIndex + 1);
   };
@@ -50,7 +47,7 @@ const Quiz = () => {
   const renderOptions = (options) => options.map((item, index) =>
     <button key={index} className="button quiz__button" onClick={() => handleAnswer(item)}>{item}</button>);
 
-  const renderRecommendations = (questions) => questions.map((item) => (
+  const renderRecommendations = (questions) => questions.map((item, index) => (
     <div key={item.index}>
       <p className="recommendation">{item.index + 1}. {item.text}</p>
       <p className="recommendation">Ваш ответ: <span className="text-bold">{item.userAnswer}</span></p>
@@ -96,7 +93,6 @@ const Quiz = () => {
         <div className='quiz__button-group'>
           {renderOptions(currentQuestion?.options)}
         </div>
-        {result && <p className="result">{result}</p>}
       </div>
     </div>
   );

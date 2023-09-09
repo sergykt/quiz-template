@@ -22,8 +22,8 @@ const QuestionManager = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      console.log('fetch');
       try {
-        console.log('fetch');
         const response = await axios.get(routes.dataPath());
         const { data: { questions: newQuestions, categories: newCategories } } = response;
         setQuestions(newQuestions);
@@ -31,9 +31,9 @@ const QuestionManager = () => {
       } catch (err) {
         console.log(err);
         if (err.response.status === 500) {
-          toast.error('Ошибка подключения');
+          toast.error('Внутренняя ошибка сервера');
         } else {
-          toast.error('Что-то пошло не так');
+          toast.error('Что-то пошло не так, проверьте соединение');
         }
       }
     }

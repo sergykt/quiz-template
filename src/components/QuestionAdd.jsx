@@ -21,38 +21,51 @@ const QuestionAddForm = ({ questions, categories }) => {
       answer: '',
       wrongAnswer: '',
       recommendation: '',
-      category: categories[0]?.text,
+      category_id: categories[0]?.id,
     },
     validationSchema,
-    onSubmit: async (values, { resetForm }) => {
+    onSubmit: async (values, { resetForm, setSubmitting }) => {
       try {
-        const response = await axios.post(routes.questionsPath(), values);
-        console.log(response.status);
+        await axios.post(routes.questionsPath(), values);
         toast.success('Вопрос добавлен');
         resetForm();
       } catch (err) {
         console.log(err);
-        toast.error('Что-то пошло не так');
+        setSubmitting(false);
+        if (err.response.status === 400) {
+          if (err.response.data.error === 'This Question Already Exists') {
+            toast.error('Данный вопрос уже существует');
+          } else {
+            toast.error('Невалидные данные');
+          }
+        } else if (err.response.status === 500) {
+          toast.error('Внутренняя ошибка сервера');
+        } else {
+          toast.error('Что-то пошло не так, проверьте соединение');
+        }
       }
     },
   });
+
+  console.log(formik.isSubmitting);
 
   return (
     <div className="container">
       <form className="form" onSubmit={formik.handleSubmit}>
         <h2 className="form__title">Добавить вопрос</h2>
         <div className="form__control">
-          <label htmlFor="category" className="form__label">Категория</label>
+          <label htmlFor="category_id" className="form__label">Категория</label>
           <select
             className="form__select"
-            name="category"
-            id="category"
+            name="category_id"
+            id="category_id"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            value={formik.values.category}
+            value={formik.values.category_id}
+            disabled={formik.isSubmitting}
           >
             {categories.map((item) => (
-              <option key={item.id} value={item.text}>{item.text}</option>)
+              <option key={item.id} value={item.id}>{item.name}</option>)
             )}
           </select>
         </div>
@@ -66,6 +79,7 @@ const QuestionAddForm = ({ questions, categories }) => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.text}
+            disabled={formik.isSubmitting}
           />
         </div>
         {formik.touched.text && formik.errors.text && (
@@ -81,6 +95,7 @@ const QuestionAddForm = ({ questions, categories }) => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.answer}
+            disabled={formik.isSubmitting}
           />
         </div>
         {formik.touched.answer && formik.errors.answer && (
@@ -96,6 +111,7 @@ const QuestionAddForm = ({ questions, categories }) => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.wrongAnswer}
+            disabled={formik.isSubmitting}
           />
         </div>
         {formik.touched.wrongAnswer && formik.errors.wrongAnswer && (
@@ -111,12 +127,13 @@ const QuestionAddForm = ({ questions, categories }) => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.recommendation}
+            disabled={formik.isSubmitting}
           />
         </div>
         {formik.touched.recommendation && formik.errors.recommendation && (
           <p className="invalid-tooltip">{formik.errors.recommendation}</p>
         )}
-        <button className="button form__button" type="submit">Отправить</button>
+        <button className="button form__button" type="submit" disabled={formik.isSubmitting}>Отправить</button>
       </form>
       <a href="/edit">
         <button className="button">Вернуться</button>
