@@ -7,11 +7,13 @@ import routes from '../routes';
 import QuestionAddForm from "../components/QuestionAdd";
 import QuestionList from "../components/QuestionList";
 import QuestionEditForm from "../components/QuestionEdit";
+import CategoryAdd from "../components/CategoryAdd";
 
 const mapping = {
   adding: QuestionAddForm,
   editing: QuestionEditForm,
   main: QuestionList,
+  category: CategoryAdd,
 };
 
 const QuestionManager = () => {

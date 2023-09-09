@@ -32,6 +32,10 @@ const QuestionList = ({ questions, setManagerMenu, setTargetQuestionId, setQuest
     }
   };
 
+  const addCategory = () => {
+    setManagerMenu('category');
+  };
+
   const renderQuestionsList = () => (
     <ol className="questions-list">
       {questions.map((item) => {
@@ -58,7 +62,10 @@ const QuestionList = ({ questions, setManagerMenu, setTargetQuestionId, setQuest
   return (
     <div className="container">
       <button className="button questions-list__add-button" onClick={() => addActions()}>
-        Добавить
+        Добавить вопрос
+      </button>
+      <button className="button questions-list__add-button" onClick={() => addCategory()}>
+        Добавить категорию
       </button>
       {renderQuestionsList(questions)}
     </div>

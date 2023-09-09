@@ -4,6 +4,7 @@ const routes = {
   dataPath: () => [apiPath, 'data'].join('/'),
   quizPath: () => [apiPath, 'quiz'].join('/'),
   questionsPath: (id) => [apiPath, 'questions', id].join('/'),
+  categoriesPath: (id) => [apiPath, 'categories', id].join('/'),
 };
 
 export default routes;

@@ -47,8 +47,6 @@ const QuestionAddForm = ({ questions, categories }) => {
     },
   });
 
-  console.log(formik.isSubmitting);
-
   return (
     <div className="container">
       <form className="form" onSubmit={formik.handleSubmit}>
