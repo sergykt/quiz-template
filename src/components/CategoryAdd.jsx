@@ -1,25 +1,29 @@
 import { useFormik } from 'formik';
+import { useRef, useEffect } from 'react';
 import axios from 'axios';
-//import * as Yup from 'yup';
+import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 
 import routes from '../routes';
 
-// const validationSchema = Yup.object({
-//   text: Yup.string().trim().required('Это поле обязательно'),
-//   answer: Yup.string().trim().required('Это поле обязательно'),
-//   wrongAnswer: Yup.string().trim()
-//     .required('Это поле обязательно')
-//     .notOneOf([Yup.ref('answer')], 'Ответы не могут быть одинаковыми'),
-//   recommendation: Yup.string().trim().required('Это поле обязательно'),
-// });
+import Button from './Button';
+
+const validationSchema = Yup.object({
+  name: Yup.string().trim().required('Это поле обязательно'),
+});
 
 const CategoryAdd = ({ questions, categories }) => {
+  const inputEl = useRef(null);
+
+  useEffect(() => {
+    inputEl.current.focus();
+  }, []);
+
   const formik = useFormik({
     initialValues: {
       name: '',
     },
-    //validationSchema,
+    validationSchema,
     onSubmit: async (values, { resetForm, setSubmitting }) => {
       try {
         await axios.post(routes.categoriesPath(), values);
@@ -40,6 +44,7 @@ const CategoryAdd = ({ questions, categories }) => {
         <div className="form__control">
           <label htmlFor="name" className="form__label">Название категории</label>
           <input
+            ref={inputEl}
             className="form__input"
             name="name"
             id="name"
@@ -50,13 +55,13 @@ const CategoryAdd = ({ questions, categories }) => {
             disabled={formik.isSubmitting}
           />
         </div>
-        {formik.touched.text && formik.errors.text && (
-          <p className="invalid-tooltip">{formik.errors.text}</p>
+        {formik.touched.name && formik.errors.name && (
+          <p className="invalid-tooltip">{formik.errors.name}</p>
         )}
-        <button className="button form__button" type="submit" disabled={formik.isSubmitting}>Отправить</button>
+        <Button className="form__button" type="submit" disabled={formik.isSubmitting}>Отправить</Button>
       </form>
       <a href="/edit">
-        <button className="button">Вернуться</button>
+        <Button>Вернуться</Button>
       </a>
     </div>
   );

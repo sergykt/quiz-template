@@ -1,9 +1,12 @@
 import { useFormik } from 'formik';
+import { useRef, useEffect } from 'react';
 import axios from 'axios';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 
 import routes from '../routes';
+
+import Button from './Button';
 
 const validationSchema = Yup.object({
   text: Yup.string().trim().required('Это поле обязательно'),
@@ -17,6 +20,12 @@ const validationSchema = Yup.object({
 const QuestionEditForm = ({ questions, categories, targetQuestionId }) => {
   const currentQuestion = questions.find((item) => item.id === targetQuestionId);
   const wrongAnswer = currentQuestion.options.find((item) => item !== currentQuestion.answer);
+
+  const inputEl = useRef(null);
+
+  useEffect(() => {
+    inputEl.current.focus();
+  }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -72,6 +81,7 @@ const QuestionEditForm = ({ questions, categories, targetQuestionId }) => {
         <div className="form__control">
           <label htmlFor="text" className="form__label">Текст вопроса</label>
           <input
+            ref={inputEl}
             className="form__input"
             name="text"
             id="text"
@@ -133,10 +143,10 @@ const QuestionEditForm = ({ questions, categories, targetQuestionId }) => {
         {formik.touched.recommendation && formik.errors.recommendation && (
           <p className="invalid-tooltip">{formik.errors.recommendation}</p>
         )}
-        <button className="button form__button" type="submit" disabled={formik.isSubmitting}>Отправить</button>
+        <Button className="form__button" type="submit" disabled={formik.isSubmitting}>Отправить</Button>
       </form>
       <a href="/edit">
-        <button className="button">Вернуться</button>
+        <Button>Вернуться</Button>
       </a>
     </div>
   );

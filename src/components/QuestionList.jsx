@@ -1,9 +1,13 @@
+import { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
 import routes from '../routes';
 
-const QuestionList = ({ questions, setManagerMenu, setTargetQuestionId, setQuestions }) => {
+import Button from './Button';
+
+const QuestionList = ({ questions, categories, setManagerMenu, setTargetQuestionId, setQuestions }) => {
+  const [currentCategory, setCurrentCategory] = useState('all');
   const addActions = () => setManagerMenu('adding');
 
   const editAction = (id) => {
@@ -36,38 +40,50 @@ const QuestionList = ({ questions, setManagerMenu, setTargetQuestionId, setQuest
     setManagerMenu('category');
   };
 
-  const renderQuestionsList = () => (
-    <ol className="questions-list">
-      {questions.map((item) => {
-        const { text, id } = item;
-        return (
-          <li className="questions-list__item" key={id}>
-            <div className="questions-list__item-container">
-              <p className="questions-list__item-title">{text}</p>
-              <div className="questions-list__button-group">
-                <button className="questions-list__button button" onClick={() => editAction(id)}>
-                  Редактировать
-                </button>
-                <button className="questions-list__button button" onClick={() => deleteAction(id)}>
-                  Удалить
-                </button>
+  const renderQuestionsList = () => {
+    const filteredQuestions = currentCategory === 'all' ? questions : questions.filter(({ category_id}) => category_id === currentCategory);
+
+    return (
+      <ol className="questions-list">
+        {filteredQuestions.map((item) => {
+          const { text, id } = item;
+          return (
+            <li className="questions-list__item" key={id}>
+              <div className="questions-list__item-container">
+                <p className="questions-list__item-title">{text}</p>
+                <div className="questions-list__button-group">
+                  <Button className="questions-list__button" onClick={() => editAction(id)}>
+                    Редактировать
+                  </Button>
+                  <Button className="questions-list__button" onClick={() => deleteAction(id)}>
+                    Удалить
+                  </Button>
+                </div>
               </div>
-            </div>
-          </li>
-        );
-      })}
-    </ol>
-  );
+            </li>
+          );
+        })}
+      </ol>
+    );
+  };
 
   return (
     <div className="container">
-      <button className="button questions-list__add-button" onClick={() => addActions()}>
-        Добавить вопрос
-      </button>
-      <button className="button questions-list__add-button" onClick={() => addCategory()}>
-        Добавить категорию
-      </button>
-      {renderQuestionsList(questions)}
+      <div className="questions-list__button-group">
+        <Button className="questions-list__add-button" onClick={() => addActions()}>
+          Добавить вопрос
+        </Button>
+        <Button className="questions-list__add-button" onClick={() => addCategory()}>
+          Добавить категорию
+        </Button>
+      </div>
+      <div class="questions-list__select">
+        <select className="form__select" defaultValue="all" onChange={(e) => setCurrentCategory(e.target.value)}>
+          <option value="all">Все категории</option>
+          {categories.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}
+        </select>
+      </div>
+      {renderQuestionsList()}
     </div>
   );
 };
