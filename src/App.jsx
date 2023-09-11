@@ -13,6 +13,7 @@ import QuestionManager from './pages/QuestionManager';
 import Starter from './pages/Starter';
 import PageNotFound from './pages/PageNotFound';
 import LoginPage from './pages/LoginPage';
+import SignUpPage from './pages/SignUpPage';
 
 const App = () => (
   <BrowserRouter>
@@ -22,6 +23,7 @@ const App = () => (
         <Route path="/*" element={<PageNotFound />} />
         <Route path="/" element={<Starter />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
         <Route path="/quiz" element={<Quiz />} />
         <Route path="/edit" element={<QuestionManager />} />
       </Routes>

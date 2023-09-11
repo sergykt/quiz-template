@@ -68,7 +68,7 @@ const QuestionList = ({ questions, categories, setManagerMenu, setTargetQuestion
   };
 
   return (
-    <div className="container">
+    <div className="container editor__container">
       <div className="questions-list__button-group">
         <Button className="questions-list__add-button" onClick={() => addActions()}>
           Добавить вопрос

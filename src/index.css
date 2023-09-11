@@ -28,28 +28,31 @@ p {
 }
 
 .header {
-  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.075) ;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.075);
 }
 
 .title {
-  text-align: center;
   font-size: 28px;
-  margin: 30px 0;
 }
 
-.text {
+.starter__title {
+  margin: 30px 0;
+  text-align: center;
+}
+
+.starter__text {
   margin: 0 0 1.15em 0;
   padding: 0;
   font-size: 16px;
   line-height: 1.5;
 }
 
-.list {
+.starter__list {
   padding: 0 0 0 30px;
   margin: 0;
 }
 
-.list > li {
+.starter__list>li {
   font-size: 16px;
   line-height: 1.5;
 }
@@ -97,8 +100,13 @@ p {
   opacity: 1;
 }
 
+.editor__container {
+  padding-top: 45px;
+  padding-bottom: 45px;
+}
+
 .form {
-  padding: 30px 0 10px 0;
+  padding: 10px 0;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -108,6 +116,7 @@ p {
   padding: 0;
   margin: 0 0 15px 0;
   font-size: 24px;
+  text-align: center;
 }
 
 .form__control {
@@ -118,6 +127,7 @@ p {
 
 .form__label {
   font-size: 16px;
+  transition: all 0.2 ease-in;
 }
 
 .form__input {
@@ -127,11 +137,42 @@ p {
   color: var(--dark-color);
   font-size: 16px;
   line-height: 1.15;
+  transition: all 0.2s ease-in;
+}
+
+.form__control_floating {
+  position: relative;
+}
+
+.form__control_floating .form__label {
+  position: absolute;
+  pointer-events: none;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 16px;
+  transition: all 0.2s ease-in;
+}
+
+.form__control_floating .form__input {
+  padding-top: 28px;
+}
+
+.form__control_floating .form__input::placeholder {
+  opacity: 0;
+  visibility: hidden;
 }
 
 .form__input:focus {
   border-color: var(--light-blue);
   box-shadow: 0 0 2px 2px var(--light-blue);
+}
+
+.form__control_floating .form__input:focus + .form__label,
+.form__control_floating .form__input:not(:placeholder-shown) + .form__label {
+  top: 8px;
+  transform: none;
+  color: grey;
+  font-size: 14px;
 }
 
 .form__select {
@@ -155,14 +196,36 @@ p {
 }
 
 .form__button {
-  max-width: 150px;
-  align-self: flex-start;
+  max-width: 110px;
 }
 
-.question {
+.quiz__question {
   font-size: 24px;
   font-weight: 700;
+  margin-top: 30px;
   margin-bottom: 30px;
+}
+
+.quiz__result {
+  font-size: 20px;
+  font-weight: 400;
+  margin-bottom: 1em;
+}
+
+.quiz__recommendation {
+  font-size: 18px;
+  font-weight: 400;
+  margin-bottom: 1em;
+}
+
+.quiz__button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.quiz__button {
+  align-self: flex-start;
 }
 
 .button {
@@ -183,28 +246,8 @@ p {
   color: white;
 }
 
-.result {
-  font-size: 20px;
-  font-weight: 400;
-  margin-bottom: 1em;
-}
-
-.recommendation {
-  font-size: 18px;
-  font-weight: 400;
-  margin-bottom: 1em;
-}
-
-.text-bold {
-  font-weight: 700;
-}
-
-.editor {
-  padding: 30px 0px;
-}
-
 .questions-list {
-  padding: 0 0 0 30px;
+  padding: 0 0 0px 30px;
   margin: 0;
   display: flex;
   flex-direction: column;
@@ -235,28 +278,13 @@ p {
 .questions-list__button {
   margin: 0;
 }
+
 .questions-list__select {
   margin-bottom: 30px;
 }
 
-.quiz {
-  padding-top: 30px;
-}
-
-.quiz__button-group {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  margin-bottom: 20px;
-}
-
-.quiz__button {
-  align-self: flex-start;
-}
-
 .page-not-found {
   padding-top: 50px;
-  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -269,7 +297,30 @@ p {
 }
 
 .page-not-found__title {
-  font-size: 20px;
-  line-height: 1.2;
   font-weight: 400;
+}
+
+.text-bold {
+  font-weight: 700;
+}
+
+.login__body {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.login__form {
+  gap: 20px;
+}
+
+.login__signup {
+  padding-top: 20px;
+  font-size: 16px;
+  text-align: center;
+}
+
+.login__signup a {
+  text-decoration: underline;
+  color: var(--blue);
 }

@@ -48,7 +48,7 @@ const CategoryAdd = ({ questions, categories }) => {
   });
 
   return (
-    <div className="container">
+    <div className="container editor__container">
       <form className="form" onSubmit={formik.handleSubmit}>
         <h2 className="form__title">Добавить категорию</h2>
         <div className="form__control">

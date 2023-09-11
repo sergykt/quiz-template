@@ -49,10 +49,10 @@ const Quiz = () => {
 
   const renderRecommendations = (questions) => questions.map((item, index) => (
     <div key={item.index}>
-      <p className="recommendation">{item.index + 1}. {item.text}</p>
-      <p className="recommendation">Ваш ответ: <span className="text-bold">{item.userAnswer}</span></p>
-      <p className="recommendation">Правильный ответ: <span className="text-bold">{item.answer}</span></p>
-      <p className="recommendation">{item.recommendation}</p>
+      <p className="quiz__recommendation">{item.index + 1}. {item.text}</p>
+      <p className="quiz__recommendation">Ваш ответ: <span className="text-bold">{item.userAnswer}</span></p>
+      <p className="quiz__recommendation">Правильный ответ: <span className="text-bold">{item.answer}</span></p>
+      <p className="quiz__recommendation">{item.recommendation}</p>
     </div>
   ));
 
@@ -77,9 +77,9 @@ const Quiz = () => {
     return (
       <div className="quiz">
         <div className="container">
-          <p className="question">Вопросы закончились</p>
-          <p className="result">Правильных ответов: {correctAnswersCount}</p>
-          <p className="result">Результат: {finalResult}</p>
+          <p className="quiz__question">Вопросы закончились</p>
+          <p className="quiz__result">Правильных ответов: {correctAnswersCount}</p>
+          <p className="quiz__result">Результат: {finalResult}</p>
           {renderRecommendations(wrongAnswers)}
         </div>
       </div>
@@ -89,7 +89,7 @@ const Quiz = () => {
   return (
     <div className="quiz">
       <div className="container">
-        <p className='question'>Вопрос №{currentQuestionIndex + 1}. {currentQuestion?.text}</p>
+        <p className='quiz__question'>Вопрос №{currentQuestionIndex + 1}. {currentQuestion?.text}</p>
         <div className='quiz__button-group'>
           {renderOptions(currentQuestion?.options)}
         </div>

@@ -57,7 +57,7 @@ const QuestionAddForm = ({ questions, categories }) => {
   });
 
   return (
-    <div className="container">
+    <div className="container editor__container">
       <form className="form" onSubmit={formik.handleSubmit}>
         <h2 className="form__title">Добавить вопрос</h2>
         <div className="form__control">

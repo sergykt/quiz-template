@@ -16,8 +16,6 @@ const mapping = {
   category: CategoryAdd,
 };
 
-console.log(routes.dataPath());
-
 const QuestionManager = () => {
   const [managerMenu, setManagerMenu] = useState('main');
   const [questions, setQuestions] = useState([]);

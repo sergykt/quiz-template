@@ -59,7 +59,7 @@ const QuestionEditForm = ({ questions, categories, targetQuestionId }) => {
   });
 
   return (
-    <div className="container">
+    <div className="container editor__container">
       <form className="form" onSubmit={formik.handleSubmit}>
         <h2 className="form__title">Редактировать вопрос</h2>
         <div className="form__control">
