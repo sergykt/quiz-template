@@ -1,3 +1,5 @@
+import Button from "./Button";
+
 const Header = () => {
   return (
     <header className="header">
@@ -15,7 +17,13 @@ const Header = () => {
             <li>
               <a href="/edit" className="navbar__link">Редактор вопросов</a>
             </li>
+
           </ul>
+          <div className="navbar__button-group">
+            <a href="/login">
+              <Button>Войти</Button>
+            </a>
+          </div>
         </nav>
       </div>
     </header>

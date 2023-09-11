@@ -77,7 +77,7 @@ const QuestionList = ({ questions, categories, setManagerMenu, setTargetQuestion
           Добавить категорию
         </Button>
       </div>
-      <div class="questions-list__select">
+      <div className="questions-list__select">
         <select className="form__select" defaultValue="all" onChange={(e) => setCurrentCategory(e.target.value)}>
           <option value="all">Все категории</option>
           {categories.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}

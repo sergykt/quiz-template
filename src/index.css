@@ -54,6 +54,12 @@ p {
   line-height: 1.5;
 }
 
+.navbar {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
 .navbar__list {
   display: flex;
   justify-content: flex-start;
@@ -62,6 +68,12 @@ p {
   margin: 0;
   list-style: none;
   gap: 30px;
+}
+
+.navbar__button-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .navbar__link {

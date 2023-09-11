@@ -31,8 +31,18 @@ const CategoryAdd = ({ questions, categories }) => {
         resetForm();
       } catch (err) {
         console.log(err);
+        if (err.response.status === 400) {
+          if (err.response.data.error === 'This Category Already Exists') {
+            toast.error('Данная категория уже существует');
+          } else {
+            toast.error('Невалидные данные');
+          }
+        } else if (err.response.status === 500) {
+          toast.error('Внутренняя ошибка сервера');
+        } else {
+          toast.error('Что-то пошло не так, проверьте соединение');
+        }
         setSubmitting(false);
-        toast.error('Что-то пошло не так, проверьте соединение');
       }
     },
   });

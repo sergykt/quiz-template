@@ -1,4 +1,4 @@
-const apiPath = process.env.NODE_ENV === 'production' ? 'https://quiz-template-server.vercel.app/api' : '/api';
+const apiPath = process.env.NODE_ENV === 'production' ? process.env.API_PATH : '/api';
 
 const routes = {
   dataPath: () => [apiPath, 'data'].join('/'),

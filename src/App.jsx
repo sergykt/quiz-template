@@ -12,6 +12,7 @@ import Quiz from "./pages/Quiz";
 import QuestionManager from './pages/QuestionManager';
 import Starter from './pages/Starter';
 import PageNotFound from './pages/PageNotFound';
+import LoginPage from './pages/LoginPage';
 
 const App = () => (
   <BrowserRouter>
@@ -20,9 +21,9 @@ const App = () => (
       <Routes>
         <Route path="/*" element={<PageNotFound />} />
         <Route path="/" element={<Starter />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/quiz" element={<Quiz />} />
         <Route path="/edit" element={<QuestionManager />} />
-
       </Routes>
     </main>
     <ToastContainer />
