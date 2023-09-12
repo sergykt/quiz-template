@@ -2,8 +2,8 @@ const apiPath = process.env.NODE_ENV === 'production' ? 'https://quiz-template-s
 
 const routes = {
   dataPath: () => [apiPath, 'data'].join('/'),
-  quizPath: () => [apiPath, 'quiz'].join('/'),
   questionsPath: (id) => [apiPath, 'questions', id].join('/'),
+  quizPath: () => [apiPath, 'questions', 'quiz'].join('/'),
   categoriesPath: (id) => [apiPath, 'categories', id].join('/'),
 };
 
