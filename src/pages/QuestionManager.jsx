@@ -26,10 +26,10 @@ const QuestionManager = () => {
     const fetchData = async () => {
       console.log('fetch');
       try {
-        const response = await axios.get(routes.dataPath());
-        const { data: { questions: newQuestions, categories: newCategories } } = response;
-        setQuestions(newQuestions);
-        setCategories(newCategories);
+        const questionsResponse = await axios.get(routes.questionsPath());
+        const categoriesResponse = await axios.get(routes.categoriesPath());
+        setQuestions(questionsResponse.data);
+        setCategories(categoriesResponse.data);
       } catch (err) {
         console.log(err);
         if (err.response.status === 500) {
