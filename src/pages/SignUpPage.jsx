@@ -8,9 +8,9 @@ import routes from '../routes';
 import Button from '../components/Button';
 
 const validationSchema = Yup.object({
-  login: Yup.string().trim().required('Это поле обязательно'),
-  password: Yup.string().trim().required('Это поле обязательно'),
-  confirmPassword: Yup.string().trim().required('Это поле обязательно'),
+  username: Yup.string().trim().required('Это поле обязательно').min(3).max(20),
+  password: Yup.string().trim().required('Это поле обязательно').min(5).max(20),
+  confirmPassword: Yup.string().trim().required('Это поле обязательно').oneOf([Yup.ref('password')], 'Пароли должны совпадать'),
 });
 
 const SignUpPage = () => {
@@ -22,12 +22,19 @@ const SignUpPage = () => {
 
   const formik = useFormik({
     initialValues: {
-      name: '',
+      username: '',
       password: '',
       confirmPassword: '',
     },
     validationSchema,
     onSubmit: async (values, { setSubmitting }) => {
+      try {
+        const response = await axios.post(routes.usersPath(), values);
+        console.log(response.data);
+      } catch (err) {
+        console.log(err);
+        setSubmitting(false);
+      }
     },
   });
 
@@ -41,16 +48,16 @@ const SignUpPage = () => {
               <input
                 ref={inputEl}
                 className="form__input"
-                name="name"
-                id="name"
+                name="username"
+                id="username"
                 type="text"
                 placeholder="Логин"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.name}
+                value={formik.values.username}
                 disabled={formik.isSubmitting}
               />
-              <label htmlFor="name" className="form__label">Логин</label>
+              <label htmlFor="username" className="form__label">Логин</label>
             </div>
             <div className="form__control form__control_floating">
               <input
@@ -78,7 +85,7 @@ const SignUpPage = () => {
                 value={formik.values.confirmPassword}
                 disabled={formik.isSubmitting}
               />
-              <label htmlFor="password" className="form__label">Повторите пароль</label>
+              <label htmlFor="confirmPassword" className="form__label">Повторите пароль</label>
             </div>
             <Button type="submit" disabled={formik.isSubmitting}>Отправить</Button>
           </form>

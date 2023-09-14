@@ -23,7 +23,7 @@ const QuestionList = ({ questions, categories, setManagerMenu, setTargetQuestion
     } catch (err) {
       console.log(err);
       if (err.response.status === 400) {
-        if (err.response.data.error === 'This Question Already Deleted') {
+        if (err.response.data.error === "This Question Doesn't Exist") {
           toast.error('Данный вопрос не существует');
         } else {
           toast.error('Невалидные данные');

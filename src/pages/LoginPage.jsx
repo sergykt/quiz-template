@@ -8,7 +8,7 @@ import routes from '../routes';
 import Button from '../components/Button';
 
 const validationSchema = Yup.object({
-  login: Yup.string().trim().required('Это поле обязательно'),
+  username: Yup.string().trim().required('Это поле обязательно'),
   password: Yup.string().trim().required('Это поле обязательно'),
 });
 
@@ -21,12 +21,18 @@ const LoginPage = () => {
 
   const formik = useFormik({
     initialValues: {
-      name: '',
+      username: '',
       password: '',
     },
     validationSchema,
     onSubmit: async (values, { setSubmitting }) => {
-
+      try {
+        const response = await axios.post(routes.loginPath(), values);
+        console.log(response.status);
+      } catch (err) {
+        console.log(err);
+        setSubmitting(false);
+      }
     },
   });
 
@@ -40,8 +46,8 @@ const LoginPage = () => {
               <input
                 ref={inputEl}
                 className="form__input"
-                name="name"
-                id="name"
+                name="username"
+                id="username"
                 type="text"
                 placeholder="Логин"
                 onChange={formik.handleChange}
@@ -49,7 +55,7 @@ const LoginPage = () => {
                 value={formik.values.name}
                 disabled={formik.isSubmitting}
               />
-              <label htmlFor="name" className="form__label">Логин</label>
+              <label htmlFor="username" className="form__label">Логин</label>
             </div>
             <div className="form__control form__control_floating">
               <input
