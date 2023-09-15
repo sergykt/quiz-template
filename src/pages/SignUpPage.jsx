@@ -2,13 +2,14 @@ import { useFormik } from 'formik';
 import { useRef, useEffect } from 'react';
 import axios from 'axios';
 import * as Yup from 'yup';
+import { toast } from 'react-toastify';
 
 import routes from '../routes';
 
 import Button from '../components/Button';
 
 const validationSchema = Yup.object({
-  username: Yup.string().trim().required('Это поле обязательно').min(3).max(20),
+  username: Yup.string().trim().required('Это поле обязательно').min(4).max(20),
   password: Yup.string().trim().required('Это поле обязательно').min(5).max(20),
   confirmPassword: Yup.string().trim().required('Это поле обязательно').oneOf([Yup.ref('password')], 'Пароли должны совпадать'),
 });
@@ -29,10 +30,16 @@ const SignUpPage = () => {
     validationSchema,
     onSubmit: async (values, { setSubmitting }) => {
       try {
-        const response = await axios.post(routes.usersPath(), values);
-        console.log(response.data);
+        await axios.post(routes.usersPath(), values);
+        toast.success('Регистрация успешна');
       } catch (err) {
-        console.log(err);
+        if (err.response.data.errors === 'This Username is not available') {
+          toast.error('Данное имя пользователя уже занято');
+        } else if (err.response.status === 500) {
+          toast.error('Не удалось зарегистрироваться');
+        } else {
+          toast.error('Что-то пошло не так, проверьте соединение');
+        }
         setSubmitting(false);
       }
     },

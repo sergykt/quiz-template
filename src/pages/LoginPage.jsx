@@ -2,6 +2,7 @@ import { useFormik } from 'formik';
 import { useRef, useEffect } from 'react';
 import axios from 'axios';
 import * as Yup from 'yup';
+import { toast } from 'react-toastify';
 
 import routes from '../routes';
 
@@ -28,9 +29,15 @@ const LoginPage = () => {
     onSubmit: async (values, { setSubmitting }) => {
       try {
         const response = await axios.post(routes.loginPath(), values);
-        console.log(response.status);
+        console.log(response.data.token);
+        localStorage.setItem('userData', response.data);
+        toast.success('Аутентификация успешна');
       } catch (err) {
-        console.log(err);
+        if (err.response.status === 401) {
+          toast.error('Неверные имя пользователя или пароль');
+        } else {
+          toast.error('Что-то пошло не так, проверьте соединение');
+        }
         setSubmitting(false);
       }
     },
@@ -41,7 +48,7 @@ const LoginPage = () => {
       <div className="container">
         <div className="login__body">
           <form className="form login__form" onSubmit={formik.handleSubmit}>
-            <h2 className="form__title">Авторизация</h2>
+            <h2 className="form__title">Аутентификация</h2>
             <div className="form__control form__control_floating">
               <input
                 ref={inputEl}

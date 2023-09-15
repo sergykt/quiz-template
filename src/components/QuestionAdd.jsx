@@ -39,10 +39,9 @@ const QuestionAddForm = ({ questions, categories }) => {
         toast.success('Вопрос добавлен');
         resetForm();
       } catch (err) {
-        console.log(err);
         setSubmitting(false);
         if (err.response.status === 400) {
-          if (err.response.data.error === 'This Question Already Exists') {
+          if (err.response.data.errors === 'This Question Already Exists') {
             toast.error('Данный вопрос уже существует');
           } else {
             toast.error('Невалидные данные');

@@ -41,12 +41,11 @@ const QuestionEditForm = ({ questions, categories, targetQuestionId }) => {
         await axios.put(routes.questionsPath(targetQuestionId), values);
         toast.success('Вопрос изменен');
       } catch (err) {
-        console.log(err);
         setSubmitting(false);
         if (err.response.status === 400) {
-          if (err.response.data.error === 'This Question Already Exists') {
+          if (err.response.data.errors === 'This Question Already Exists') {
             toast.error('Данный вопрос уже существует');
-          } else if (err.response.data.error === "This Questions Doesn't Exist") {
+          } else if (err.response.data.errors === "This Questions Doesn't Exist") {
             toast.error('Данный вопрос не существует');
           } else {
             toast.error('Невалидные данные');

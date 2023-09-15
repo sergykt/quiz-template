@@ -21,13 +21,8 @@ const QuestionList = ({ questions, categories, setManagerMenu, setTargetQuestion
       setQuestions(questions.filter((item) => item.id !== id));
       toast.success('Вопрос удален');
     } catch (err) {
-      console.log(err);
-      if (err.response.status === 400) {
-        if (err.response.data.error === "This Question Doesn't Exist") {
-          toast.error('Данный вопрос не существует');
-        } else {
-          toast.error('Невалидные данные');
-        }
+      if (err.response.data.error === "This Question Doesn't Exist") {
+        toast.error('Данный вопрос не существует');
       } else if (err.response.status === 500) {
         toast.error('Внутренняя ошибка сервера');
       } else {
@@ -41,7 +36,7 @@ const QuestionList = ({ questions, categories, setManagerMenu, setTargetQuestion
   };
 
   const renderQuestionsList = () => {
-    const filteredQuestions = currentCategory === 'all' ? questions : questions.filter(({ category_id}) => category_id === currentCategory);
+    const filteredQuestions = currentCategory === 'all' ? questions : questions.filter(({ category_id }) => category_id === currentCategory);
 
     return (
       <ol className="questions-list">

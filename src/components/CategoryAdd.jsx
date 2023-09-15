@@ -30,9 +30,8 @@ const CategoryAdd = ({ questions, categories }) => {
         toast.success('Категория добавлена');
         resetForm();
       } catch (err) {
-        console.log(err);
         if (err.response.status === 400) {
-          if (err.response.data.error === 'This Category Already Exists') {
+          if (err.response.data.errors === 'This Category Already Exists') {
             toast.error('Данная категория уже существует');
           } else {
             toast.error('Невалидные данные');
