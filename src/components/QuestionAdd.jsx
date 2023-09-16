@@ -85,6 +85,7 @@ const QuestionAdd = ({ questions, categories }) => {
             onBlur={formik.handleBlur}
             value={formik.values.text}
             disabled={formik.isSubmitting}
+            required
           />
         </div>
         {formik.touched.text && formik.errors.text && (
@@ -101,6 +102,7 @@ const QuestionAdd = ({ questions, categories }) => {
             onBlur={formik.handleBlur}
             value={formik.values.answer}
             disabled={formik.isSubmitting}
+            required
           />
         </div>
         {formik.touched.answer && formik.errors.answer && (
@@ -117,6 +119,7 @@ const QuestionAdd = ({ questions, categories }) => {
             onBlur={formik.handleBlur}
             value={formik.values.wrongAnswer}
             disabled={formik.isSubmitting}
+            required
           />
         </div>
         {formik.touched.wrongAnswer && formik.errors.wrongAnswer && (
@@ -133,6 +136,7 @@ const QuestionAdd = ({ questions, categories }) => {
             onBlur={formik.handleBlur}
             value={formik.values.recommendation}
             disabled={formik.isSubmitting}
+            required
           />
         </div>
         {formik.touched.recommendation && formik.errors.recommendation && (

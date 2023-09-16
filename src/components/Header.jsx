@@ -1,6 +1,21 @@
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
+import { toast } from 'react-toastify';
+
 import Button from "./Button";
 
 const Header = () => {
+  const auth = useAuth();
+  const navigate = useNavigate();
+
+  const logOut = () => {
+    auth.logOut();
+    navigate('/');
+    toast.info('Выполнен выход пользователя');
+  };
+
+  const headerButton = auth.loggedIn ? <Button onClick={() => logOut()}>Выйти</Button> : <Button onClick={() => navigate('/login')}>Войти</Button>;
+
   return (
     <header className="header">
       <div className="container">
@@ -17,12 +32,9 @@ const Header = () => {
             <li>
               <a href="/questions" className="navbar__link">Редактор вопросов</a>
             </li>
-
           </ul>
           <div className="navbar__button-group">
-            <a href="/login">
-              <Button>Войти</Button>
-            </a>
+            {headerButton}
           </div>
         </nav>
       </div>

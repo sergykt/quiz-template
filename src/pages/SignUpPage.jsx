@@ -1,20 +1,23 @@
-import { useFormik } from 'formik';
 import { useRef, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
+import { useFormik } from 'formik';
 import axios from 'axios';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 
+import { useAuth } from '../contexts/AuthContext';
+import Button from '../components/Button';
 import routes from '../routes';
 
-import Button from '../components/Button';
-
 const validationSchema = Yup.object({
-  username: Yup.string().trim().required('Это поле обязательно').min(4).max(20),
-  password: Yup.string().trim().required('Это поле обязательно').min(5).max(20),
+  username: Yup.string().trim().required('Это поле обязательно').min(4, 'От 4 до 20 символов').max(20),
+  password: Yup.string().trim().required('Это поле обязательно').min(5, 'От 5 до 20 символов').max(20),
   confirmPassword: Yup.string().trim().required('Это поле обязательно').oneOf([Yup.ref('password')], 'Пароли должны совпадать'),
 });
 
 const SignUpPage = () => {
+  const auth = useAuth();
+  const navigate = useNavigate();
   const inputEl = useRef(null);
 
   useEffect(() => {
@@ -30,7 +33,10 @@ const SignUpPage = () => {
     validationSchema,
     onSubmit: async (values, { setSubmitting }) => {
       try {
-        await axios.post(routes.usersPath(), values);
+        const response = await axios.post(routes.usersPath(), values);
+        localStorage.setItem('accessToken', response.data);
+        auth.logIn();
+        navigate('/');
         toast.success('Регистрация успешна');
       } catch (err) {
         if (err.response.status === 409) {
@@ -63,9 +69,13 @@ const SignUpPage = () => {
                 onBlur={formik.handleBlur}
                 value={formik.values.username}
                 disabled={formik.isSubmitting}
+                required
               />
               <label htmlFor="username" className="form__label">Логин</label>
             </div>
+            {formik.touched.username && formik.errors.username && (
+              <p className="invalid-tooltip">{formik.errors.username}</p>
+            )}
             <div className="form__control form__control_floating">
               <input
                 className="form__input"
@@ -77,9 +87,13 @@ const SignUpPage = () => {
                 onBlur={formik.handleBlur}
                 value={formik.values.password}
                 disabled={formik.isSubmitting}
+                required
               />
               <label htmlFor="password" className="form__label">Пароль</label>
             </div>
+            {formik.touched.password && formik.errors.password && (
+              <p className="invalid-tooltip">{formik.errors.password}</p>
+            )}
             <div className="form__control form__control_floating">
               <input
                 className="form__input"
@@ -91,9 +105,13 @@ const SignUpPage = () => {
                 onBlur={formik.handleBlur}
                 value={formik.values.confirmPassword}
                 disabled={formik.isSubmitting}
+                required
               />
               <label htmlFor="confirmPassword" className="form__label">Повторите пароль</label>
             </div>
+            {formik.touched.confirmPassword && formik.errors.confirmPassword && (
+              <p className="invalid-tooltip">{formik.errors.confirmPassword}</p>
+            )}
             <Button type="submit" disabled={formik.isSubmitting}>Отправить</Button>
           </form>
         </div>

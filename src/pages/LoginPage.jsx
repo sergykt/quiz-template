@@ -1,12 +1,15 @@
-import { useFormik } from 'formik';
+
 import { useRef, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
+import { useFormik } from 'formik';
+
 import axios from 'axios';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 
-import routes from '../routes';
-
+import { useAuth } from '../contexts/AuthContext';
 import Button from '../components/Button';
+import routes from '../routes';
 
 const validationSchema = Yup.object({
   username: Yup.string().trim().required('Это поле обязательно'),
@@ -14,6 +17,8 @@ const validationSchema = Yup.object({
 });
 
 const LoginPage = () => {
+  const auth = useAuth();
+  const navigate = useNavigate();
   const inputEl = useRef(null);
 
   useEffect(() => {
@@ -29,8 +34,10 @@ const LoginPage = () => {
     onSubmit: async (values, { setSubmitting }) => {
       try {
         const response = await axios.post(routes.loginPath(), values);
-        localStorage.setItem('userData', JSON.stringify(response.data));
-        toast.success('Успешно');
+        localStorage.setItem('accessToken', response.data);
+        auth.logIn();
+        navigate('/');
+        toast.success('Авторизация успешна');
       } catch (err) {
         if (err.response.status === 401) {
           toast.error('Неверные имя пользователя или пароль');
@@ -47,7 +54,7 @@ const LoginPage = () => {
       <div className="container">
         <div className="login__body">
           <form className="form login__form" onSubmit={formik.handleSubmit}>
-            <h2 className="form__title">Аутентификация</h2>
+            <h2 className="form__title">Авторизация</h2>
             <div className="form__control form__control_floating">
               <input
                 ref={inputEl}
@@ -60,6 +67,7 @@ const LoginPage = () => {
                 onBlur={formik.handleBlur}
                 value={formik.values.name}
                 disabled={formik.isSubmitting}
+                required
               />
               <label htmlFor="username" className="form__label">Логин</label>
             </div>
@@ -74,6 +82,7 @@ const LoginPage = () => {
                 onBlur={formik.handleBlur}
                 value={formik.values.password}
                 disabled={formik.isSubmitting}
+                required
               />
               <label htmlFor="password" className="form__label">Пароль</label>
             </div>

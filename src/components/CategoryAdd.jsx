@@ -60,6 +60,7 @@ const CategoryAdd = () => {
             onBlur={formik.handleBlur}
             value={formik.values.name}
             disabled={formik.isSubmitting}
+            required
           />
         </div>
         {formik.touched.name && formik.errors.name && (
