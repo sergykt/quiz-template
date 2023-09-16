@@ -1,4 +1,5 @@
 import { useFormik } from 'formik';
+import { useNavigate } from 'react-router-dom';
 import { useRef, useEffect } from 'react';
 import axios from 'axios';
 import * as Yup from 'yup';
@@ -18,6 +19,7 @@ const validationSchema = Yup.object({
 });
 
 const QuestionAdd = ({ questions, categories }) => {
+  const navigate = useNavigate();
   const inputEl = useRef(null);
 
   useEffect(() => {
@@ -35,12 +37,20 @@ const QuestionAdd = ({ questions, categories }) => {
     validationSchema,
     onSubmit: async (values, { resetForm, setSubmitting }) => {
       try {
-        await axios.post(routes.questionsPath(), values);
+        const accessToken = localStorage.getItem('accessToken');
+        await axios.post(routes.questionsPath(), values, {
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+          }
+        });
         toast.success('Вопрос добавлен');
         resetForm();
       } catch (err) {
         setSubmitting(false);
-        if (err.response.status === 409) {
+        if (err.response.status === 403) {
+          navigate('/');
+          toast.error('Доступ запрещен');
+        } else if (err.response.status === 409) {
           toast.error('Данный вопрос уже существует');
         } else if (err.response.status === 400) {
           toast.error('Невалидные данные');

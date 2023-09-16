@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
@@ -7,6 +8,7 @@ import routes from '../routes';
 import Button from './Button';
 
 const QuestionList = ({ questions, categories, setManagerMenu, setTargetQuestionId, setQuestions }) => {
+  const navigate = useNavigate();
   const [currentCategory, setCurrentCategory] = useState('all');
   const addActions = () => setManagerMenu('adding');
 
@@ -17,11 +19,19 @@ const QuestionList = ({ questions, categories, setManagerMenu, setTargetQuestion
 
   const deleteAction = async (id) => {
     try {
-      await axios.delete(routes.questionsPath(id));
+      const accessToken = localStorage.getItem('accessToken');
+      await axios.delete(routes.questionsPath(id), {
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+        }
+      });
       setQuestions(questions.filter((item) => item.id !== id));
       toast.success('Вопрос удален');
     } catch (err) {
-      if (err.response.status === 404) {
+      if (err.response.status === 403) {
+        navigate('/');
+        toast.error('Доступ запрещен');
+      } else if (err.response.status === 404) {
         toast.error('Данный вопрос не существует');
       } else if (err.response.status === 500) {
         toast.error('Внутренняя ошибка сервера');

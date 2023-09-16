@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
@@ -6,6 +7,7 @@ import Button from './Button';
 import routes from '../routes';
 
 const CategoryList = ({ categories, setManagerMenu, setTargetCategoryId, setCategories }) => {
+  const navigate = useNavigate();
   const addActions = () => setManagerMenu('adding');
 
   const editAction = (id) => {
@@ -15,11 +17,19 @@ const CategoryList = ({ categories, setManagerMenu, setTargetCategoryId, setCate
 
   const deleteAction = async (id) => {
     try {
-      await axios.delete(routes.categoriesPath(id));
+      const accessToken = localStorage.getItem('accessToken');
+      await axios.delete(routes.categoriesPath(id), {
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+        }
+      });
       setCategories(categories.filter((item) => item.id !== id));
       toast.success('Категория удалена');
     } catch (err) {
-      if (err.response.status === 404) {
+      if (err.response.status === 403) {
+        navigate('/');
+        toast.error('Доступ запрещен');
+      } else if (err.response.status === 404) {
         toast.error('Данная категория не существует');
       } else if (err.response.status === 409) {
         toast.error('Категорию нельзя удалить, поскольку с ней еще связаны вопросы');

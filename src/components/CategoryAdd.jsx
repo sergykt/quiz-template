@@ -1,4 +1,5 @@
 import { useFormik } from 'formik';
+import { useNavigate } from 'react-router-dom';
 import { useRef, useEffect } from 'react';
 import axios from 'axios';
 import * as Yup from 'yup';
@@ -13,6 +14,7 @@ const validationSchema = Yup.object({
 });
 
 const CategoryAdd = () => {
+  const navigate = useNavigate();
   const inputEl = useRef(null);
 
   useEffect(() => {
@@ -26,11 +28,19 @@ const CategoryAdd = () => {
     validationSchema,
     onSubmit: async (values, { resetForm, setSubmitting }) => {
       try {
-        await axios.post(routes.categoriesPath(), values);
+        const accessToken = localStorage.getItem('accessToken');
+        await axios.post(routes.categoriesPath(), values, {
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+          }
+        });
         toast.success('Категория добавлена');
         resetForm();
       } catch (err) {
-        if (err.response.status === 409) {
+        if (err.response.status === 403) {
+          navigate('/');
+          toast.error('Доступ запрещен');
+        } else if (err.response.status === 409) {
           toast.error('Данная категория уже существует');
         } else if (err.response.status === 400) {
           toast.error('Невалидные данные');

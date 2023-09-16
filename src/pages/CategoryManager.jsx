@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
@@ -15,6 +16,7 @@ const mapping = {
 };
 
 const CategoryManager = () => {
+  const navigate = useNavigate();
   const [managerMenu, setManagerMenu] = useState('main');
   const [categories, setCategories] = useState([]);
   const [targetCategoryId, setTargetCategoryId] = useState(null);
@@ -23,10 +25,18 @@ const CategoryManager = () => {
     const fetchData = async () => {
       console.log('fetch');
       try {
-        const categoriesResponse = await axios.get(routes.categoriesPath());
+        const accessToken = localStorage.getItem('accessToken');
+        const categoriesResponse = await axios.get(routes.categoriesPath(),  {
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+          }
+        });
         setCategories(categoriesResponse.data);
       } catch (err) {
-        if (err.response.status === 500) {
+        if (err.response.status === 403) {
+          navigate('/');
+          toast.error('Доступ запрещен');
+        } else if (err.response.status === 500) {
           toast.error('Внутренняя ошибка сервера');
         } else {
           toast.error('Что-то пошло не так, проверьте соединение');

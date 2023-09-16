@@ -1,4 +1,5 @@
 import { useFormik } from 'formik';
+import { useNavigate } from 'react-router-dom';
 import { useRef, useEffect } from 'react';
 import axios from 'axios';
 import * as Yup from 'yup';
@@ -22,6 +23,7 @@ const QuestionEdit = ({ questions, categories, targetQuestionId }) => {
   const wrongAnswer = currentQuestion.options.find((item) => item !== currentQuestion.answer);
 
   const inputEl = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     inputEl.current.focus();
@@ -38,11 +40,19 @@ const QuestionEdit = ({ questions, categories, targetQuestionId }) => {
     validationSchema,
     onSubmit: async (values, { setSubmitting }) => {
       try {
-        await axios.put(routes.questionsPath(targetQuestionId), values);
+        const accessToken = localStorage.getItem('accessToken');
+        await axios.put(routes.questionsPath(targetQuestionId), values, {
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+          }
+        });
         toast.success('Вопрос изменен');
       } catch (err) {
         setSubmitting(false);
-        if (err.response.status === 409) {
+        if (err.response.status === 403) {
+          navigate('/');
+          toast.error('Доступ запрещен');
+        } else if (err.response.status === 409) {
           toast.error('Данный вопрос уже существует');
         } else if (err.response.status === 400) {
           toast.error('Невалидные данные');

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
@@ -15,21 +16,35 @@ const mapping = {
 };
 
 const QuestionManager = () => {
-  const [managerMenu, setManagerMenu] = useState('main');
+  const navigate = useNavigate();
+  const [managerMenu, setManagerMenu] = useState(null);
   const [questions, setQuestions] = useState([]);
   const [categories, setCategories] = useState([]);
   const [targetQuestionId, setTargetQuestionId] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log('fetch');
       try {
-        const questionsResponse = await axios.get(routes.questionsPath());
-        const categoriesResponse = await axios.get(routes.categoriesPath());
+        console.log('fetch');
+        const accessToken = localStorage.getItem('accessToken');
+        const questionsResponse = await axios.get(routes.questionsPath(), {
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+          }
+        });
+        const categoriesResponse = await axios.get(routes.categoriesPath(), {
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+          }
+        });
         setQuestions(questionsResponse.data);
         setCategories(categoriesResponse.data);
+        setManagerMenu('main');
       } catch (err) {
-        if (err.response.status === 500) {
+        if (err.response.status === 403) {
+          navigate('/');
+          toast.error('Доступ запрещен');
+        } else if (err.response.status === 500) {
           toast.error('Внутренняя ошибка сервера');
         } else {
           toast.error('Что-то пошло не так, проверьте соединение');
@@ -38,20 +53,22 @@ const QuestionManager = () => {
     }
 
     fetchData();
-  }, []);
+  }, [navigate]);
 
   const ManagerForm = mapping[managerMenu];
 
   return (
     <div className="editor">
-      <ManagerForm
-        questions={questions}
-        setQuestions={setQuestions}
-        categories={categories}
-        setManagerMenu={setManagerMenu}
-        targetQuestionId={targetQuestionId}
-        setTargetQuestionId={setTargetQuestionId}
-      />
+      {
+        managerMenu && <ManagerForm
+          questions={questions}
+          setQuestions={setQuestions}
+          categories={categories}
+          setManagerMenu={setManagerMenu}
+          targetQuestionId={targetQuestionId}
+          setTargetQuestionId={setTargetQuestionId}
+        />
+      }
     </div>
   );
 };
