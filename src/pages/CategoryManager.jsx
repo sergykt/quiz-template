@@ -45,7 +45,7 @@ const CategoryManager = () => {
     }
 
     fetchData();
-  }, []);
+  }, [navigate]);
 
   const ManagerForm = mapping[managerMenu];
 
