@@ -29,9 +29,8 @@ const LoginPage = () => {
     onSubmit: async (values, { setSubmitting }) => {
       try {
         const response = await axios.post(routes.loginPath(), values);
-        console.log(response.data.token);
-        localStorage.setItem('userData', response.data);
-        toast.success('Аутентификация успешна');
+        localStorage.setItem('userData', JSON.stringify(response.data));
+        toast.success('Успешно');
       } catch (err) {
         if (err.response.status === 401) {
           toast.error('Неверные имя пользователя или пароль');

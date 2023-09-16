@@ -2,31 +2,28 @@ import { useState, useEffect } from "react";
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
+import CategoryList from "../components/CategoryList";
+import CategoryAdd from "../components/CategoryAdd";
+import CategoryEdit from "../components/CategoryEdit";
+
 import routes from '../routes';
 
-import QuestionAdd from "../components/QuestionAdd";
-import QuestionList from "../components/QuestionList";
-import QuestionEdit from "../components/QuestionEdit";
-
 const mapping = {
-  adding: QuestionAdd,
-  editing: QuestionEdit,
-  main: QuestionList,
+  adding: CategoryAdd,
+  editing: CategoryEdit,
+  main: CategoryList,
 };
 
-const QuestionManager = () => {
+const CategoryManager = () => {
   const [managerMenu, setManagerMenu] = useState('main');
-  const [questions, setQuestions] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [targetQuestionId, setTargetQuestionId] = useState(null);
+  const [targetCategoryId, setTargetCategoryId] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       console.log('fetch');
       try {
-        const questionsResponse = await axios.get(routes.questionsPath());
         const categoriesResponse = await axios.get(routes.categoriesPath());
-        setQuestions(questionsResponse.data);
         setCategories(categoriesResponse.data);
       } catch (err) {
         if (err.response.status === 500) {
@@ -44,16 +41,15 @@ const QuestionManager = () => {
 
   return (
     <div className="editor">
-      <ManagerForm
-        questions={questions}
-        setQuestions={setQuestions}
+      <ManagerForm 
         categories={categories}
+        setCategories={setCategories}
         setManagerMenu={setManagerMenu}
-        targetQuestionId={targetQuestionId}
-        setTargetQuestionId={setTargetQuestionId}
+        targetCategoryId={targetCategoryId}
+        setTargetCategoryId={setTargetCategoryId}
       />
     </div>
   );
 };
 
-export default QuestionManager;
+export default CategoryManager;

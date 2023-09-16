@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Header from './components/Header';
 import Quiz from "./pages/Quiz";
 import QuestionManager from './pages/QuestionManager';
+import CategoryManager from './pages/CategoryManager';
 import Starter from './pages/Starter';
 import PageNotFound from './pages/PageNotFound';
 import LoginPage from './pages/LoginPage';
@@ -25,7 +26,8 @@ const App = () => (
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/quiz" element={<Quiz />} />
-        <Route path="/edit" element={<QuestionManager />} />
+        <Route path="/questions" element={<QuestionManager />} />
+        <Route path="/categories" element={<CategoryManager />} />
       </Routes>
     </main>
     <ToastContainer />

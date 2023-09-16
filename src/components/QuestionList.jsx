@@ -21,7 +21,7 @@ const QuestionList = ({ questions, categories, setManagerMenu, setTargetQuestion
       setQuestions(questions.filter((item) => item.id !== id));
       toast.success('Вопрос удален');
     } catch (err) {
-      if (err.response.data.error === "This Question Doesn't Exist") {
+      if (err.response.status === 404) {
         toast.error('Данный вопрос не существует');
       } else if (err.response.status === 500) {
         toast.error('Внутренняя ошибка сервера');
@@ -29,10 +29,6 @@ const QuestionList = ({ questions, categories, setManagerMenu, setTargetQuestion
         toast.error('Что-то пошло не так, проверьте соединение');
       }
     }
-  };
-
-  const addCategory = () => {
-    setManagerMenu('category');
   };
 
   const renderQuestionsList = () => {
@@ -68,9 +64,9 @@ const QuestionList = ({ questions, categories, setManagerMenu, setTargetQuestion
         <Button className="questions-list__add-button" onClick={() => addActions()}>
           Добавить вопрос
         </Button>
-        <Button className="questions-list__add-button" onClick={() => addCategory()}>
-          Добавить категорию
-        </Button>
+        <a href="/categories">
+          <Button>Список категорий</Button>
+        </a>
       </div>
       <div className="questions-list__select">
         <select className="form__select" defaultValue="all" onChange={(e) => setCurrentCategory(e.target.value)}>

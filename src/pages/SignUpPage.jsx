@@ -33,7 +33,7 @@ const SignUpPage = () => {
         await axios.post(routes.usersPath(), values);
         toast.success('Регистрация успешна');
       } catch (err) {
-        if (err.response.data.errors === 'This Username is not available') {
+        if (err.response.status === 409) {
           toast.error('Данное имя пользователя уже занято');
         } else if (err.response.status === 500) {
           toast.error('Не удалось зарегистрироваться');

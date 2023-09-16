@@ -12,8 +12,9 @@ const validationSchema = Yup.object({
   name: Yup.string().trim().required('Это поле обязательно'),
 });
 
-const CategoryAdd = () => {
+const CategoryEdit = ({ categories, targetCategoryId }) => {
   const inputEl = useRef(null);
+  const currentCategory = categories.find((item) => item.id === targetCategoryId);
 
   useEffect(() => {
     inputEl.current.focus();
@@ -21,17 +22,18 @@ const CategoryAdd = () => {
 
   const formik = useFormik({
     initialValues: {
-      name: '',
+      name: currentCategory.name,
     },
     validationSchema,
     onSubmit: async (values, { resetForm, setSubmitting }) => {
       try {
-        await axios.post(routes.categoriesPath(), values);
-        toast.success('Категория добавлена');
-        resetForm();
+        await axios.put(routes.categoriesPath(targetCategoryId), values);
+        toast.success('Категория изменена');
       } catch (err) {
         if (err.response.status === 409) {
           toast.error('Данная категория уже существует');
+        } else if (err.response.status === 404) {
+          toast.error('Данная категория не существует');
         } else if (err.response.status === 400) {
           toast.error('Невалидные данные');
         } else if (err.response.status === 500) {
@@ -47,7 +49,7 @@ const CategoryAdd = () => {
   return (
     <div className="container editor__container">
       <form className="form" onSubmit={formik.handleSubmit}>
-        <h2 className="form__title">Добавить категорию</h2>
+        <h2 className="form__title">Редактировать категорию</h2>
         <div className="form__control">
           <label htmlFor="name" className="form__label">Название категории</label>
           <input
@@ -74,4 +76,4 @@ const CategoryAdd = () => {
   );
 };
 
-export default CategoryAdd;
+export default CategoryEdit;

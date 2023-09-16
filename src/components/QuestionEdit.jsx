@@ -17,7 +17,7 @@ const validationSchema = Yup.object({
   recommendation: Yup.string().trim().required('Это поле обязательно'),
 });
 
-const QuestionEditForm = ({ questions, categories, targetQuestionId }) => {
+const QuestionEdit = ({ questions, categories, targetQuestionId }) => {
   const currentQuestion = questions.find((item) => item.id === targetQuestionId);
   const wrongAnswer = currentQuestion.options.find((item) => item !== currentQuestion.answer);
 
@@ -42,14 +42,12 @@ const QuestionEditForm = ({ questions, categories, targetQuestionId }) => {
         toast.success('Вопрос изменен');
       } catch (err) {
         setSubmitting(false);
-        if (err.response.status === 400) {
-          if (err.response.data.errors === 'This Question Already Exists') {
-            toast.error('Данный вопрос уже существует');
-          } else if (err.response.data.errors === "This Questions Doesn't Exist") {
-            toast.error('Данный вопрос не существует');
-          } else {
-            toast.error('Невалидные данные');
-          }
+        if (err.response.status === 409) {
+          toast.error('Данный вопрос уже существует');
+        } else if (err.response.status === 400) {
+          toast.error('Невалидные данные');
+        } else if (err.response.status === 404) {
+          toast.error('Данный вопрос не существует');
         } else if (err.response.status === 500) {
           toast.error('Внутренняя ошибка сервера');
         } else {
@@ -146,11 +144,11 @@ const QuestionEditForm = ({ questions, categories, targetQuestionId }) => {
         )}
         <Button className="form__button" type="submit" disabled={formik.isSubmitting}>Отправить</Button>
       </form>
-      <a href="/edit">
+      <a href="/questions">
         <Button>Вернуться</Button>
       </a>
     </div>
   );
 };
 
-export default QuestionEditForm;
+export default QuestionEdit;

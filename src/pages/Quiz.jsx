@@ -22,7 +22,6 @@ const Quiz = () => {
         const response = await axios.get(routes.quizPath());
         setQuestions(response.data);
       } catch (err) {
-        console.log(err);
         if (err.response.status === 500) {
           toast.error('Внутренняя ошибка сервера');
         } else {

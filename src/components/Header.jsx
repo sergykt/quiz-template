@@ -15,7 +15,7 @@ const Header = () => {
               <a href="/quiz" className="navbar__link">Квиз</a>
             </li>
             <li>
-              <a href="/edit" className="navbar__link">Редактор вопросов</a>
+              <a href="/questions" className="navbar__link">Редактор вопросов</a>
             </li>
 
           </ul>
