@@ -6,7 +6,10 @@ const AuthContext = createContext({});
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const accessToken = localStorage.getItem('accessToken');
+  const initialState = !!accessToken;
+
+  const [loggedIn, setLoggedIn] = useState(initialState);
 
   const logIn = () => {
     setLoggedIn(true);
@@ -16,21 +19,21 @@ export const AuthProvider = ({ children }) => {
     setLoggedIn(false);
   };
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const accessToken = localStorage.getItem('accessToken');
-        if (accessToken) {
-          await userService.refresh();
-          logIn();
-        }
-      } catch (err) {
-        console.log('Пользователь не авторизован');
-      }
-    };
+  // useEffect(() => {
+  //   const checkAuth = async () => {
+  //     try {
+  //       const accessToken = localStorage.getItem('accessToken');
+  //       if (accessToken) {
+  //         await userService.refresh();
+  //         logIn();
+  //       }
+  //     } catch (err) {
+  //       console.log('Пользователь не авторизован');
+  //     }
+  //   };
 
-    checkAuth();
-  }, []);
+  //   checkAuth();
+  // }, []);
 
   return (
     <AuthContext.Provider value={{ loggedIn, logIn, logOut }}>
