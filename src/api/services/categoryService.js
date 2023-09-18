@@ -1,6 +1,6 @@
 import { axiosInstance } from '../axiosInstance';
 
-const categoriesPath = (id) => ['categoriess', id].join('/');
+const categoriesPath = (id) => ['categories', id].join('/');
 
 class CategoryService {
   async get() {
