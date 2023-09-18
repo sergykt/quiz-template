@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from 'axios';
 import { toast } from 'react-toastify';
-
-import routes from '../routes';
 
 import QuestionAdd from "../components/QuestionAdd";
 import QuestionList from "../components/QuestionList";
 import QuestionEdit from "../components/QuestionEdit";
+
+import categoryService from "../api/services/categoryService";
+import questionService from "../api/services/questionService";
 
 const mapping = {
   adding: QuestionAdd,
@@ -26,25 +26,16 @@ const QuestionManager = () => {
     const fetchData = async () => {
       try {
         console.log('fetch');
-        const accessToken = localStorage.getItem('accessToken');
-        const questionsResponse = await axios.get(routes.questionsPath(), {
-          headers: {
-            'Authorization': `Bearer ${accessToken}`,
-          }
-        });
-        const categoriesResponse = await axios.get(routes.categoriesPath(), {
-          headers: {
-            'Authorization': `Bearer ${accessToken}`,
-          }
-        });
-        setQuestions(questionsResponse.data);
-        setCategories(categoriesResponse.data);
+        const questionsResponse = await questionService.get();
+        const categoriesResponse = await categoryService.get();
+        setQuestions(questionsResponse);
+        setCategories(categoriesResponse);
         setManagerMenu('main');
       } catch (err) {
-        if (err.response.status === 403) {
+        if (err.response.status === 401) {
           navigate('/');
           toast.error('Доступ запрещен');
-        } else if (err.response.status === 500) {
+        } else if (err.response?.status === 500) {
           toast.error('Внутренняя ошибка сервера');
         } else {
           toast.error('Что-то пошло не так, проверьте соединение');

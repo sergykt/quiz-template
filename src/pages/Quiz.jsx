@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { toast } from 'react-toastify';
-
-import routes from "../routes";
+import questionService from "../api/services/questionService";
 
 const finalResults = {
   bad: 'Неудовлетворительно',
@@ -19,8 +17,8 @@ const Quiz = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(routes.quizPath());
-        setQuestions(response.data);
+        const response = await questionService.getQuiz();
+        setQuestions(response);
       } catch (err) {
         if (err.response.status === 500) {
           toast.error('Внутренняя ошибка сервера');

@@ -2,14 +2,12 @@
 import { useRef, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useFormik } from 'formik';
-
-import axios from 'axios';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 
 import { useAuth } from '../contexts/AuthContext';
 import Button from '../components/Button';
-import routes from '../routes';
+import userService from '../api/services/userService';
 
 const validationSchema = Yup.object({
   username: Yup.string().trim().required('Это поле обязательно'),
@@ -33,14 +31,15 @@ const LoginPage = () => {
     validationSchema,
     onSubmit: async (values, { setSubmitting }) => {
       try {
-        const response = await axios.post(routes.loginPath(), values);
-        localStorage.setItem('accessToken', response.data);
+        await userService.login(values);
         auth.logIn();
         navigate('/');
         toast.success('Авторизация успешна');
       } catch (err) {
         if (err.response.status === 401) {
           toast.error('Неверные имя пользователя или пароль');
+        } else if (err.response.status === 500) {
+          toast.error('Внутренняя ошибка сервера');
         } else {
           toast.error('Что-то пошло не так, проверьте соединение');
         }

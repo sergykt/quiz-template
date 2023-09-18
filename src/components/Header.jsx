@@ -3,15 +3,21 @@ import { useAuth } from "../contexts/AuthContext";
 import { toast } from 'react-toastify';
 
 import Button from "./Button";
+import userService from "../api/services/userService";
 
 const Header = () => {
   const auth = useAuth();
   const navigate = useNavigate();
 
-  const logOut = () => {
-    auth.logOut();
-    navigate('/');
-    toast.info('Выполнен выход пользователя');
+  const logOut = async () => {
+    try {
+      await userService.logOut();
+      auth.logOut();
+      navigate('/');
+      toast.info('Выполнен выход пользователя');
+    } catch (err) {
+      toast.error('Внутренняя ошибка сервера');
+    }
   };
 
   const headerButton = auth.loggedIn ? <Button onClick={() => logOut()}>Выйти</Button> : <Button onClick={() => navigate('/login')}>Войти</Button>;

@@ -1,13 +1,12 @@
 import { useRef, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useFormik } from 'formik';
-import axios from 'axios';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 
 import { useAuth } from '../contexts/AuthContext';
 import Button from '../components/Button';
-import routes from '../routes';
+import userService from '../api/services/userService';
 
 const validationSchema = Yup.object({
   username: Yup.string().trim().required('Это поле обязательно').min(4, 'От 4 до 20 символов').max(20),
@@ -33,8 +32,7 @@ const SignUpPage = () => {
     validationSchema,
     onSubmit: async (values, { setSubmitting }) => {
       try {
-        const response = await axios.post(routes.usersPath(), values);
-        localStorage.setItem('accessToken', response.data);
+        await userService.create(values);
         auth.logIn();
         navigate('/');
         toast.success('Регистрация успешна');

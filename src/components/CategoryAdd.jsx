@@ -1,13 +1,11 @@
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { useRef, useEffect } from 'react';
-import axios from 'axios';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 
 import Button from './Button';
-
-import routes from '../routes';
+import categoryService from '../api/services/categoryService';
 
 const validationSchema = Yup.object({
   name: Yup.string().trim().required('Это поле обязательно'),
@@ -28,16 +26,11 @@ const CategoryAdd = () => {
     validationSchema,
     onSubmit: async (values, { resetForm, setSubmitting }) => {
       try {
-        const accessToken = localStorage.getItem('accessToken');
-        await axios.post(routes.categoriesPath(), values, {
-          headers: {
-            'Authorization': `Bearer ${accessToken}`,
-          }
-        });
+        await categoryService.create(values);
         toast.success('Категория добавлена');
         resetForm();
       } catch (err) {
-        if (err.response.status === 403) {
+        if (err.response.status === 401) {
           navigate('/');
           toast.error('Доступ запрещен');
         } else if (err.response.status === 409) {

@@ -7,7 +7,6 @@ import {
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { AuthProvider } from './contexts/AuthContext';
 import Header from './components/Header';
 import Quiz from "./pages/Quiz";
 import QuestionManager from './pages/QuestionManager';
@@ -18,23 +17,21 @@ import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 
 const App = () => (
-  <AuthProvider>
-    <BrowserRouter>
-      <Header />
-      <main className="main">
-        <Routes>
-          <Route path="/*" element={<PageNotFound />} />
-          <Route path="/" element={<Starter />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/quiz" element={<Quiz />} />
-          <Route path="/questions" element={<QuestionManager />} />
-          <Route path="/categories" element={<CategoryManager />} />
-        </Routes>
-      </main>
-      <ToastContainer />
-    </BrowserRouter>
-  </AuthProvider>
+  <BrowserRouter>
+    <Header />
+    <main className="main">
+      <Routes>
+        <Route path="/*" element={<PageNotFound />} />
+        <Route path="/" element={<Starter />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/quiz" element={<Quiz />} />
+        <Route path="/questions" element={<QuestionManager />} />
+        <Route path="/categories" element={<CategoryManager />} />
+      </Routes>
+    </main>
+    <ToastContainer />
+  </BrowserRouter>
 );
 
 export default App;

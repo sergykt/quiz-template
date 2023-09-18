@@ -1,13 +1,11 @@
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { useRef, useEffect } from 'react';
-import axios from 'axios';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 
-import routes from '../routes';
-
 import Button from './Button';
+import questionService from '../api/services/questionService';
 
 const validationSchema = Yup.object({
   text: Yup.string().trim().required('Это поле обязательно'),
@@ -18,7 +16,7 @@ const validationSchema = Yup.object({
   recommendation: Yup.string().trim().required('Это поле обязательно'),
 });
 
-const QuestionAdd = ({ questions, categories }) => {
+const QuestionAdd = ({ categories }) => {
   const navigate = useNavigate();
   const inputEl = useRef(null);
 
@@ -37,17 +35,12 @@ const QuestionAdd = ({ questions, categories }) => {
     validationSchema,
     onSubmit: async (values, { resetForm, setSubmitting }) => {
       try {
-        const accessToken = localStorage.getItem('accessToken');
-        await axios.post(routes.questionsPath(), values, {
-          headers: {
-            'Authorization': `Bearer ${accessToken}`,
-          }
-        });
+        await questionService.create(values);
         toast.success('Вопрос добавлен');
         resetForm();
       } catch (err) {
         setSubmitting(false);
-        if (err.response.status === 403) {
+        if (err.response.status === 401) {
           navigate('/');
           toast.error('Доступ запрещен');
         } else if (err.response.status === 409) {
