@@ -36,7 +36,6 @@ class UserService {
     const { accessToken, username } = response.data;
     localStorage.setItem('accessToken', accessToken);
     localStorage.setItem('username', username);
-    return true;
   }
 }
 

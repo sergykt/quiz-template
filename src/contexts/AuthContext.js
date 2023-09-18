@@ -21,10 +21,8 @@ export const AuthProvider = ({ children }) => {
       try {
         const accessToken = localStorage.getItem('accessToken');
         if (accessToken) {
-          const user = await userService.refresh();
-          if (user) {
-            logIn();
-          }
+          await userService.refresh();
+          logIn();
         }
       } catch (err) {
         console.log('Пользователь не авторизован');
