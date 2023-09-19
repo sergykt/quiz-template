@@ -20,7 +20,7 @@ const Quiz = () => {
         const response = await questionService.getQuiz();
         setQuestions(response);
       } catch (err) {
-        if (err.response.status === 500) {
+        if (err.response?.status === 500) {
           toast.error('Внутренняя ошибка сервера');
         } else {
           toast.error('Что-то пошло не так, проверьте соединение');

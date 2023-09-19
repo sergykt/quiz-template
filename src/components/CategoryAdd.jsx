@@ -30,14 +30,14 @@ const CategoryAdd = () => {
         toast.success('Категория добавлена');
         resetForm();
       } catch (err) {
-        if (err.response.status === 401) {
+        if (err.response?.status === 401) {
           navigate('/');
           toast.error('Доступ запрещен');
-        } else if (err.response.status === 409) {
+        } else if (err.response?.status === 409) {
           toast.error('Данная категория уже существует');
-        } else if (err.response.status === 400) {
+        } else if (err.response?.status === 400) {
           toast.error('Невалидные данные');
-        } else if (err.response.status === 500) {
+        } else if (err.response?.status === 500) {
           toast.error('Внутренняя ошибка сервера');
         } else {
           toast.error('Что-то пошло не так, проверьте соединение');
@@ -49,7 +49,7 @@ const CategoryAdd = () => {
 
   return (
     <div className="container editor__container">
-      <form className="form" onSubmit={formik.handleSubmit}>
+      <form className="form" id="category" onSubmit={formik.handleSubmit}>
         <h2 className="form__title">Добавить категорию</h2>
         <div className="form__control">
           <label htmlFor="name" className="form__label">Название категории</label>

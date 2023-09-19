@@ -27,10 +27,10 @@ const CategoryManager = () => {
         const categoriesResponse = await categoryService.get();
         setCategories(categoriesResponse);
       } catch (err) {
-        if (err.response.status === 401) {
+        if (err.response?.status === 401) {
           navigate('/');
           toast.error('Доступ запрещен');
-        } else if (err.response.status === 500) {
+        } else if (err.response?.status === 500) {
           toast.error('Внутренняя ошибка сервера');
         } else {
           toast.error('Что-то пошло не так, проверьте соединение');

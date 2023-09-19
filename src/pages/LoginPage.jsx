@@ -31,14 +31,14 @@ const LoginPage = () => {
     validationSchema,
     onSubmit: async (values, { setSubmitting }) => {
       try {
-        await userService.login(values);
-        auth.logIn();
+        const response = await userService.login(values);
+        auth.logIn(response);
         navigate('/');
         toast.success('Авторизация успешна');
       } catch (err) {
-        if (err.response.status === 401) {
+        if (err.response?.status === 401) {
           toast.error('Неверные имя пользователя или пароль');
-        } else if (err.response.status === 500) {
+        } else if (err.response?.status === 500) {
           toast.error('Внутренняя ошибка сервера');
         } else {
           toast.error('Что-то пошло не так, проверьте соединение');

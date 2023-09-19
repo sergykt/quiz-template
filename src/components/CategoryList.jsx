@@ -19,14 +19,14 @@ const CategoryList = ({ categories, setManagerMenu, setTargetCategoryId, setCate
       setCategories(categories.filter((item) => item.id !== id));
       toast.success('Категория удалена');
     } catch (err) {
-      if (err.response.status === 401) {
+      if (err.response?.status === 401) {
         navigate('/');
         toast.error('Доступ запрещен');
-      } else if (err.response.status === 404) {
+      } else if (err.response?.status === 404) {
         toast.error('Данная категория не существует');
-      } else if (err.response.status === 409) {
+      } else if (err.response?.status === 409) {
         toast.error('Категорию нельзя удалить, поскольку с ней еще связаны вопросы');
-      } else if (err.response.status === 500) {
+      } else if (err.response?.status === 500) {
         toast.error('Внутренняя ошибка сервера');
       } else {
         toast.error('Что-то пошло не так, проверьте соединение');

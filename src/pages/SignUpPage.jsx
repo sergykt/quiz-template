@@ -32,14 +32,14 @@ const SignUpPage = () => {
     validationSchema,
     onSubmit: async (values, { setSubmitting }) => {
       try {
-        await userService.create(values);
-        auth.logIn();
+        const response = await userService.create(values);
+        auth.logIn(response);
         navigate('/');
         toast.success('Регистрация успешна');
       } catch (err) {
-        if (err.response.status === 409) {
+        if (err.response?.status === 409) {
           toast.error('Данное имя пользователя уже занято');
-        } else if (err.response.status === 500) {
+        } else if (err.response?.status === 500) {
           toast.error('Не удалось зарегистрироваться');
         } else {
           toast.error('Что-то пошло не так, проверьте соединение');

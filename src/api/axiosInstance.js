@@ -20,7 +20,7 @@ axiosInstance.interceptors.response.use((config) => {
 }, async (err) => {
   try {
     const originalRequest = err.config;
-    if (err.response.status === 401) {
+    if (err.response?.status === 401) {
       const response = await axios.get(refreshPath(), { withCredentials: true, timeout: 5000 });
       const { accessToken, username } = response.data;
       localStorage.setItem('accessToken', accessToken);
@@ -28,9 +28,10 @@ axiosInstance.interceptors.response.use((config) => {
       return axiosInstance.request(originalRequest);
     }
   } catch (err) {
-    throw err;
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('username');
+    console.log('Истек срок действия refresh token, выполните вход заново', err);
   }
-
 });
 
-export { refreshPath, axiosInstance };
+export { apiPath, axiosInstance };

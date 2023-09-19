@@ -40,14 +40,14 @@ const QuestionAdd = ({ categories }) => {
         resetForm();
       } catch (err) {
         setSubmitting(false);
-        if (err.response.status === 401) {
+        if (err.response?.status === 401) {
           navigate('/');
           toast.error('Доступ запрещен');
-        } else if (err.response.status === 409) {
+        } else if (err.response?.status === 409) {
           toast.error('Данный вопрос уже существует');
-        } else if (err.response.status === 400) {
+        } else if (err.response?.status === 400) {
           toast.error('Невалидные данные');
-        } else if (err.response.status === 500) {
+        } else if (err.response?.status === 500) {
           toast.error('Внутренняя ошибка сервера');
         } else {
           toast.error('Что-то пошло не так, проверьте соединение');
@@ -58,7 +58,7 @@ const QuestionAdd = ({ categories }) => {
 
   return (
     <div className="container editor__container">
-      <form className="form" onSubmit={formik.handleSubmit}>
+      <form className="form" name="question" onSubmit={formik.handleSubmit}>
         <h2 className="form__title">Добавить вопрос</h2>
         <div className="form__control">
           <label htmlFor="category_id" className="form__label">Категория</label>

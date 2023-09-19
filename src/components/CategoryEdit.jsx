@@ -31,16 +31,16 @@ const CategoryEdit = ({ categories, targetCategoryId }) => {
         toast.success('Категория изменена');
       } catch (err) {
         console.log(err);
-        if (err.response.status === 401) {
+        if (err.response?.status === 401) {
           navigate('/');
           toast.error('Доступ запрещен');
-        } else if (err.response.status === 409) {
+        } else if (err.response?.status === 409) {
           toast.error('Данная категория уже существует');
-        } else if (err.response.status === 404) {
+        } else if (err.response?.status === 404) {
           toast.error('Данная категория не существует');
-        } else if (err.response.status === 400) {
+        } else if (err.response?.status === 400) {
           toast.error('Невалидные данные');
-        } else if (err.response.status === 500) {
+        } else if (err.response?.status === 500) {
           toast.error('Внутренняя ошибка сервера');
         } else {
           toast.error('Что-то пошло не так, проверьте соединение');
@@ -52,7 +52,7 @@ const CategoryEdit = ({ categories, targetCategoryId }) => {
 
   return (
     <div className="container editor__container">
-      <form className="form" onSubmit={formik.handleSubmit}>
+      <form className="form" name="category" onSubmit={formik.handleSubmit}>
         <h2 className="form__title">Редактировать категорию</h2>
         <div className="form__control">
           <label htmlFor="name" className="form__label">Название категории</label>

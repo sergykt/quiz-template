@@ -21,12 +21,12 @@ const QuestionList = ({ questions, categories, setManagerMenu, setTargetQuestion
       setQuestions(questions.filter((item) => item.id !== id));
       toast.success('Вопрос удален');
     } catch (err) {
-      if (err.response.status === 401) {
+      if (err.response?.status === 401) {
         navigate('/');
         toast.error('Доступ запрещен');
-      } else if (err.response.status === 404) {
+      } else if (err.response?.status === 404) {
         toast.error('Данный вопрос не существует');
-      } else if (err.response.status === 500) {
+      } else if (err.response?.status === 500) {
         toast.error('Внутренняя ошибка сервера');
       } else {
         toast.error('Что-то пошло не так, проверьте соединение');
@@ -72,7 +72,7 @@ const QuestionList = ({ questions, categories, setManagerMenu, setTargetQuestion
         </a>
       </div>
       <div className="questions-list__select">
-        <select className="form__select" defaultValue="all" onChange={(e) => setCurrentCategory(e.target.value)}>
+        <select className="form__select" name="categories" defaultValue="all" onChange={(e) => setCurrentCategory(e.target.value)}>
           <option value="all">Все категории</option>
           {categories.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}
         </select>

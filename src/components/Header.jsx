@@ -16,7 +16,11 @@ const Header = () => {
       navigate('/');
       toast.info('Выполнен выход пользователя');
     } catch (err) {
-      toast.error('Внутренняя ошибка сервера');
+      if (err.response?.status === 500) {
+        toast.error('Внутренняя ошибка сервера');
+      } else {
+        toast.error('Что-то пошло не так, проверьте соединение');
+      }
     }
   };
 
