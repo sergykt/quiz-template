@@ -31,6 +31,7 @@ axiosInstance.interceptors.response.use((config) => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('username');
     console.log('Истек срок действия refresh token, выполните вход заново', err);
+    throw err;
   }
 });
 
