@@ -35,18 +35,15 @@ const ProfilePage = () => {
 
   return (
     <>
-      {
-        results.length &&
-        <div className="profile">
-          <div className="container">
-            <h2 className="title profile__title">Пользователь {username}</h2>
-            <div className="profile__stats">
-              <h3 className="profile__subtitle">Ваша статистика</h3>
-              <Stats results={results} />
-            </div>
+      <div className="profile">
+        <div className="container">
+          <h2 className="title profile__title">Пользователь {username}</h2>
+          <div className="profile__stats">
+            <h3 className="profile__subtitle">Ваша статистика</h3>
+            <Stats results={results} />
           </div>
         </div>
-      }
+      </div>
     </>
   );
 };
