@@ -10,6 +10,10 @@ const Stats = ({ results }) => {
   const maxPoints = 20;
   const totalPoints = results.reduce((acc, item) => (acc + item.points), 0);
 
+  if (results.length === 0) {
+    return null;
+  }
+
   return (
     <table className="table">
       <thead>
