@@ -40,7 +40,7 @@ const Stats = ({ results }) => {
           <th colSpan="2">Общий результат</th>
           <td>{totalPoints}</td>
           <td>{maxPoints * results.length - totalPoints}</td>
-          <td>{(totalPoints ?? 0 / (maxPoints * results.length) * 100).toFixed(1)}%</td>
+          <td>{((totalPoints) / (maxPoints * results.length) * 100 || 0).toFixed(1)}%</td>
         </tr>}
       </tbody>
     </table>
