@@ -44,6 +44,7 @@ const Header = () => {
             </li>
           </ul>
           <div className="navbar__button-group">
+            {auth.loggedIn && <a href="/profile"><Button>Профиль</Button></a>}
             {headerButton}
           </div>
         </nav>

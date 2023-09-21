@@ -21,7 +21,7 @@ const QuestionList = ({ questions, categories, setManagerMenu, setTargetQuestion
       setQuestions(questions.filter((item) => item.id !== id));
       toast.success('Вопрос удален');
     } catch (err) {
-      if (err.response?.status === 401) {
+      if (err.response?.status === 401 || err.response?.status === 403) {
         navigate('/');
         toast.error('Доступ запрещен');
       } else if (err.response?.status === 404) {

@@ -19,7 +19,7 @@ const CategoryList = ({ categories, setManagerMenu, setTargetCategoryId, setCate
       setCategories(categories.filter((item) => item.id !== id));
       toast.success('Категория удалена');
     } catch (err) {
-      if (err.response?.status === 401) {
+      if (err.response?.status === 401 || err.response?.status === 403) {
         navigate('/');
         toast.error('Доступ запрещен');
       } else if (err.response?.status === 404) {

@@ -4,6 +4,7 @@ import { apiPath, axiosInstance } from '../axiosInstance';
 const usersPath = () => 'users';
 const loginPath = () => [apiPath, 'users', 'login'].join('/');
 const logOutPath = () => ['users', 'logout'].join('/');
+const resultsPath = () => ['users', 'results'].join('/');
 
 class UserService {
   async create(values) {
@@ -24,6 +25,14 @@ class UserService {
         throw err;
       }
     }
+  }
+
+  async getResults() {
+    return await axiosInstance.get(resultsPath());
+  }
+
+  async addResults(points) {
+    await axiosInstance.post(resultsPath(), { points });
   }
 }
 

@@ -30,7 +30,7 @@ const CategoryAdd = () => {
         toast.success('Категория добавлена');
         resetForm();
       } catch (err) {
-        if (err.response?.status === 401) {
+        if (err.response?.status === 401 || err.response?.status === 403) {
           navigate('/');
           toast.error('Доступ запрещен');
         } else if (err.response?.status === 409) {

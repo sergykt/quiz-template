@@ -15,6 +15,7 @@ import Starter from './pages/Starter';
 import PageNotFound from './pages/PageNotFound';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
+import ProfilePage from './pages/ProfilePage';
 
 const App = () => (
   <BrowserRouter>
@@ -28,6 +29,7 @@ const App = () => (
         <Route path="/quiz" element={<Quiz />} />
         <Route path="/questions" element={<QuestionManager />} />
         <Route path="/categories" element={<CategoryManager />} />
+        <Route path="/profile" element={<ProfilePage />} />
       </Routes>
     </main>
     <ToastContainer />

@@ -1,11 +1,25 @@
 import { useState, useEffect } from "react";
 import { toast } from 'react-toastify';
 import questionService from "../api/services/questionService";
+import userService from "../api/services/userService";
 
 const finalResults = {
   bad: 'Неудовлетворительно',
   average: 'Неплохо',
   good: 'Вы молодец!',
+};
+
+const sendQuizResults = async (points) => {
+  try {
+    await userService.addResults(points);
+    toast.success('Результаты отправлены на сервер');
+  } catch (err) {
+    if (err.response?.status === 500) {
+      toast.error('Внутренняя ошибка сервера');
+    } else {
+      toast.error('Что-то пошло не так, проверьте соединение');
+    }
+  }
 };
 
 const Quiz = () => {
@@ -60,6 +74,10 @@ const Quiz = () => {
   const currentQuestion = questions[currentQuestionIndex];
 
   if (currentQuestionIndex >= questions.length) {
+    const username = localStorage.getItem('username');
+    if (username) {
+      sendQuizResults(correctAnswersCount);
+    }
     const percentage = correctAnswersCount / questions.length * 100;
     let finalResult;
 

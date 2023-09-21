@@ -16,7 +16,7 @@ const mapping = {
 
 const CategoryManager = () => {
   const navigate = useNavigate();
-  const [managerMenu, setManagerMenu] = useState('main');
+  const [managerMenu, setManagerMenu] = useState(null);
   const [categories, setCategories] = useState([]);
   const [targetCategoryId, setTargetCategoryId] = useState(null);
 
@@ -26,8 +26,9 @@ const CategoryManager = () => {
       try {
         const categoriesResponse = await categoryService.get();
         setCategories(categoriesResponse);
+        setManagerMenu('main');
       } catch (err) {
-        if (err.response?.status === 401) {
+        if (err.response?.status === 401 || err.response?.status === 403) {
           navigate('/');
           toast.error('Доступ запрещен');
         } else if (err.response?.status === 500) {
@@ -45,13 +46,15 @@ const CategoryManager = () => {
 
   return (
     <div className="editor">
-      <ManagerForm 
-        categories={categories}
-        setCategories={setCategories}
-        setManagerMenu={setManagerMenu}
-        targetCategoryId={targetCategoryId}
-        setTargetCategoryId={setTargetCategoryId}
-      />
+      {
+        managerMenu && <ManagerForm
+          categories={categories}
+          setCategories={setCategories}
+          setManagerMenu={setManagerMenu}
+          targetCategoryId={targetCategoryId}
+          setTargetCategoryId={setTargetCategoryId}
+        />
+      }
     </div>
   );
 };

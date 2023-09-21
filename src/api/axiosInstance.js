@@ -27,10 +27,13 @@ axiosInstance.interceptors.response.use((config) => {
       localStorage.setItem('username', username);
       return axiosInstance.request(originalRequest);
     }
+    throw err;
   } catch (err) {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('username');
-    console.log('Истек срок действия refresh token, выполните вход заново', err);
+    if (err.response?.status === 401) {
+      console.log('Необходимо авторизоваться');
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('username');
+    }
     throw err;
   }
 });
