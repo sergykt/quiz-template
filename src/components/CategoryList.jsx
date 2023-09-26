@@ -37,7 +37,7 @@ const CategoryList = ({ categories, setManagerMenu, setTargetCategoryId, setCate
   return (
     <div className="container editor__container">
       <div className="questions-list__button-group">
-        <Button className="questions-list__add-button" onClick={() => addActions()}>
+        <Button onClick={() => addActions()}>
           Добавить категорию
         </Button>
         <a href="/questions">
