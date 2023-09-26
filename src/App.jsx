@@ -39,8 +39,8 @@ const App = () => {
             <Route path="/profile" element={<ProfilePage />} />
           </Routes>
         </main>
-        <ToastContainer />
       </BrowserRouter>
+      <ToastContainer />
     </div>
   );
 };

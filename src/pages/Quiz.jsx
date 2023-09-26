@@ -27,6 +27,7 @@ const Quiz = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
   const [wrongAnswers, setWrongAnswers] = useState([]);
+  const [quizCompleted, setQuizCompleted] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -75,7 +76,8 @@ const Quiz = () => {
 
   if (currentQuestionIndex >= questions.length) {
     const username = localStorage.getItem('username');
-    if (username) {
+    if (username && !quizCompleted) {
+      setQuizCompleted(true);
       sendQuizResults(correctAnswersCount);
     }
     const percentage = correctAnswersCount / questions.length * 100;
