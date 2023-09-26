@@ -98,6 +98,7 @@ p {
   background: transparent;
   z-index: 15;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .header__burger span {
