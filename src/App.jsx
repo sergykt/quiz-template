@@ -17,23 +17,32 @@ import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 import ProfilePage from './pages/ProfilePage';
 
-const App = () => (
-  <BrowserRouter>
-    <Header />
-    <main className="main">
-      <Routes>
-        <Route path="/*" element={<PageNotFound />} />
-        <Route path="/" element={<Starter />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/quiz" element={<Quiz />} />
-        <Route path="/questions" element={<QuestionManager />} />
-        <Route path="/categories" element={<CategoryManager />} />
-        <Route path="/profile" element={<ProfilePage />} />
-      </Routes>
-    </main>
-    <ToastContainer />
-  </BrowserRouter>
-);
+import { useBurger } from './contexts/BurgerMenuContext';
+
+const App = () => {
+  const burger = useBurger();
+  const { setMenuActive } = burger;
+
+  return (
+    <div className="wrapper" onClick={() => setMenuActive(false)}>
+      <BrowserRouter>
+        <Header />
+        <main className="main">
+          <Routes>
+            <Route path="/*" element={<PageNotFound />} />
+            <Route path="/" element={<Starter />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/quiz" element={<Quiz />} />
+            <Route path="/questions" element={<QuestionManager />} />
+            <Route path="/categories" element={<CategoryManager />} />
+            <Route path="/profile" element={<ProfilePage />} />
+          </Routes>
+        </main>
+        <ToastContainer />
+      </BrowserRouter>
+    </div>
+  );
+};
 
 export default App;
