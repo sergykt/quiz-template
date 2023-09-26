@@ -103,7 +103,7 @@ p {
   height: 30px;
   width: 30px;
   background: transparent;
-  z-index: 15;
+  z-index: 20;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
