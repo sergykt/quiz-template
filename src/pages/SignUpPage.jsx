@@ -42,7 +42,9 @@ const SignUpPage = () => {
         if (err.response?.status === 409) {
           toast.error('Имя пользователя или E-mail уже заняты');
         } else if (err.response?.status === 500) {
-          toast.error('Не удалось зарегистрироваться');
+          toast.error('Внутренняя ошибка сервера');
+        } else if (err.response?.status === 400) {
+          toast.error('Невалидные данные');
         } else {
           toast.error('Что-то пошло не так, проверьте соединение');
         }
