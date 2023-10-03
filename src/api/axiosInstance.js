@@ -6,7 +6,7 @@ const refreshPath = () => [apiPath, 'users', 'refresh'].join('/');
 const axiosInstance = axios.create({
   withCredentials: true,
   baseURL: apiPath,
-  timeout: 5000,
+  timeout: 20000,
 });
 
 axiosInstance.interceptors.request.use((config) => {

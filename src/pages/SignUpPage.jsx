@@ -10,6 +10,7 @@ import userService from '../api/services/userService';
 
 const validationSchema = Yup.object({
   username: Yup.string().trim().required('Это поле обязательно').min(4, 'От 4 до 20 символов').max(20),
+  email: Yup.string().trim().required('Это поле обязательно').email('Невалидный email'),
   password: Yup.string().trim().required('Это поле обязательно').min(5, 'От 5 до 20 символов').max(20),
   confirmPassword: Yup.string().trim().required('Это поле обязательно').oneOf([Yup.ref('password')], 'Пароли должны совпадать'),
 });
@@ -26,6 +27,7 @@ const SignUpPage = () => {
   const formik = useFormik({
     initialValues: {
       username: '',
+      email: '',
       password: '',
       confirmPassword: '',
     },
@@ -38,7 +40,7 @@ const SignUpPage = () => {
         toast.success('Регистрация успешна');
       } catch (err) {
         if (err.response?.status === 409) {
-          toast.error('Данное имя пользователя уже занято');
+          toast.error('Имя пользователя или E-mail уже заняты');
         } else if (err.response?.status === 500) {
           toast.error('Не удалось зарегистрироваться');
         } else {
@@ -74,6 +76,27 @@ const SignUpPage = () => {
             {formik.touched.username && formik.errors.username && (
               <p className="invalid-tooltip">{formik.errors.username}</p>
             )}
+            
+            <div className="form__control form__control_floating">
+              <input
+                ref={inputEl}
+                className="form__input"
+                name="email"
+                id="email"
+                type="email"
+                placeholder="email"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.email}
+                disabled={formik.isSubmitting}
+                required
+              />
+              <label htmlFor="email" className="form__label">E-mail</label>
+            </div>
+            {formik.touched.email && formik.errors.email && (
+              <p className="invalid-tooltip">{formik.errors.email}</p>
+            )}
+
             <div className="form__control form__control_floating">
               <input
                 className="form__input"

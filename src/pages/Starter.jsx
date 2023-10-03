@@ -1,3 +1,5 @@
+import Button from "../components/Button";
+
 const Starter = () => (
   <div className="starter">
     <div className="container">
@@ -11,6 +13,7 @@ const Starter = () => (
         <li>После того, как вы ответите на все вопросы, вы узнаете свой результат и получите рекомендацию о вашем уровне знаний.</li>
         <li>Не стесняйтесь приступить к тесту и попробовать свои силы. Удачи!</li>
       </ul>
+      <a href="/quiz"><Button>Начать квиз</Button></a>
     </div>
   </div>
 );

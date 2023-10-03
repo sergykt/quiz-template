@@ -1,17 +1,28 @@
+import Button from "./Button";
+
 const formatDate = (date) => {
   const day = String(date.getDate()).padStart(2, '0');
   const month = String(date.getMonth() + 1).padStart(2, '0');
-  const year = date.getFullYear();
+  const year = String(date.getFullYear()).slice(-2);
 
   return `${day}.${month}.${year}`;
-}
+};
 
-const Stats = ({ results }) => {
+const Stats = ({ results, isCompleted }) => {
   const maxPoints = 20;
   const totalPoints = results.reduce((acc, item) => (acc + item.points), 0);
 
-  if (results.length === 0) {
+  if (!isCompleted) {
     return null;
+  }
+
+  if (results.length === 0) {
+    return (
+      <>
+        <p className="profile__warn">Пройдите тест, так как статистика пока недоступна</p>
+        <a href="/quiz"><Button>Начать квиз</Button></a>
+      </>
+    );
   }
 
   return (

@@ -16,6 +16,7 @@ import PageNotFound from './pages/PageNotFound';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 import ProfilePage from './pages/ProfilePage';
+import Footer from './components/Footer';
 
 import { useBurger } from './contexts/BurgerMenuContext';
 
@@ -39,6 +40,7 @@ const App = () => {
             <Route path="/profile" element={<ProfilePage />} />
           </Routes>
         </main>
+        <Footer />
       </BrowserRouter>
       <ToastContainer />
     </div>

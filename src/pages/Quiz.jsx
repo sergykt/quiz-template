@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { toast } from 'react-toastify';
 import questionService from "../api/services/questionService";
 import userService from "../api/services/userService";
+import Button from "../components/Button";
 
 const finalResults = {
   bad: 'Неудовлетворительно',
@@ -98,6 +99,7 @@ const Quiz = () => {
           <p className="quiz__result">Правильных ответов: {correctAnswersCount}</p>
           <p className="quiz__result">Результат: {finalResult}</p>
           {renderRecommendations(wrongAnswers)}
+          <a href="/quiz"><Button className="quiz__restart-button">Начать заново</Button></a>
         </div>
       </div>
     );
