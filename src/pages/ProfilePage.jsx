@@ -9,12 +9,14 @@ import Button from "../components/Button";
 
 const sendResults = async () => {
   try {
-    await userService.sendResults();
+    const htmlBody = document.documentElement;
+    await userService.sendResults(htmlBody.outerHTML);
     toast.success('Результаты отправлены на почту');
   } catch (err) {
     if (err.response?.status === 500) {
       toast.error('Внутренняя ошибка сервера');
     } else {
+      console.log(err);
       toast.error('Что-то пошло не так, проверьте соединение');
     }
   }

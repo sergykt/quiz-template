@@ -36,8 +36,9 @@ class UserService {
     await axiosInstance.post(resultsPath(), { points });
   }
 
-  async sendResults() {
-    await axiosInstance.post(sendResultsPath(), { timeout: 10000 });
+  async sendResults(htmlBody) {
+    console.log(htmlBody);
+    await axiosInstance.post(sendResultsPath(), { htmlBody }, { timeout: 10000 });
   }
 }
 
