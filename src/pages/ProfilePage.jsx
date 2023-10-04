@@ -56,7 +56,7 @@ const ProfilePage = () => {
           <h2 className="title profile__title">Пользователь {username}</h2>
           <div className="profile__stats">
             <h3 className="profile__subtitle">Ваша статистика</h3>
-            <Stats results={results} isCompleted={isCompleted} />
+            <Stats results={results} />
             {results.length > 0 && <Button onClick={() => sendResults()}>Отправить на почту</Button>}
           </div>
         </div>

@@ -8,14 +8,7 @@ const formatDate = (date) => {
   return `${day}.${month}.${year}`;
 };
 
-const Stats = ({ results, isCompleted }) => {
-  const maxPoints = 20;
-  const totalPoints = results.reduce((acc, item) => (acc + item.points), 0);
-
-  if (!isCompleted) {
-    return null;
-  }
-
+const Stats = ({ results }) => {
   if (results.length === 0) {
     return (
       <>
@@ -24,6 +17,9 @@ const Stats = ({ results, isCompleted }) => {
       </>
     );
   }
+
+  const maxPoints = 20;
+  const totalPoints = results.reduce((acc, item) => (acc + item.points), 0);
 
   return (
     <table className="table">
@@ -51,12 +47,12 @@ const Stats = ({ results, isCompleted }) => {
             </tr>
           );
         })}
-        {<tr>
+        <tr>
           <th colSpan="2">Общий результат</th>
           <td>{totalPoints}</td>
           <td>{maxPoints * results.length - totalPoints}</td>
-          <td>{((totalPoints) / (maxPoints * results.length) * 100 || 0).toFixed(1)}%</td>
-        </tr>}
+          <td>{((totalPoints) / (maxPoints * results.length) * 100).toFixed(1)}%</td>
+        </tr>
       </tbody>
     </table>
   );
