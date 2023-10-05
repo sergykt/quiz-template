@@ -37,7 +37,6 @@ class UserService {
   }
 
   async sendResults(htmlBody) {
-    console.log(htmlBody);
     await axiosInstance.post(sendResultsPath(), { htmlBody }, { timeout: 10000 });
   }
 }

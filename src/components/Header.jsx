@@ -45,7 +45,7 @@ const Header = () => {
       <div className="container">
         <div className="header__body">
           <a href="/">
-            <img className="logo" src={`${process.env.PUBLIC_URL}/img/quiz-logo.png`} alt="logo" />
+            <img className="logo" src="/img/quiz-logo.png" alt="logo" />
           </a>
           <div className={menuActive ? "header__menu active" : "header__menu"} onClick={(e) => e.stopPropagation()}>
             <nav className="navbar">

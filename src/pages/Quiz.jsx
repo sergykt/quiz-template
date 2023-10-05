@@ -58,7 +58,7 @@ const Quiz = () => {
   };
 
   const renderOptions = (options) => options.map((item, index) =>
-    <button key={index} className="button quiz__button" onClick={() => handleAnswer(item)}>{item}</button>);
+    <Button key={index} className="button__no-hover quiz__button" onClick={() => handleAnswer(item)}>{item}</Button>);
 
   const renderRecommendations = (questions) => questions.map((item, index) => (
     <div key={item.index}>

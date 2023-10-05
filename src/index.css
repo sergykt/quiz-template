@@ -59,7 +59,12 @@ p {
 
 .button:hover {
   background-color: var(--blue);
-  color: white;
+  color: var(--light-color);
+}
+
+.button__no-hover:hover {
+  background-color: transparent;
+  color: var(--blue);
 }
 
 .header {

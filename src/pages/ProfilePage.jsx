@@ -9,7 +9,7 @@ import Button from "../components/Button";
 
 const sendResults = async () => {
   try {
-    const htmlBody = document.documentElement;
+    const htmlBody = document.querySelector('.table');
     await userService.sendResults(htmlBody.outerHTML);
     toast.success('Результаты отправлены на почту');
   } catch (err) {
