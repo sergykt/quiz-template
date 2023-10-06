@@ -62,11 +62,6 @@ p {
   color: var(--light-color);
 }
 
-.button__no-hover:hover {
-  background-color: transparent;
-  color: var(--blue);
-}
-
 .header {
   -webkit-box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.075);
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.075);
@@ -504,6 +499,13 @@ p {
 .quiz__button {
   -ms-flex-item-align: start;
   align-self: flex-start;
+  background-color: var(--blue);
+  color: var(--light-color);
+}
+
+.quiz__button:hover {
+  background-color: var(--blue);
+  color: var(--light-color);
 }
 
 .quiz__restart-button {
