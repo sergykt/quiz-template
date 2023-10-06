@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+
 import userService from "../api/services/userService";
 import { toast } from "react-toastify";
 
@@ -9,8 +10,8 @@ import Button from "../components/Button";
 
 const sendResults = async () => {
   try {
-    const htmlBody = document.querySelector('.table');
-    await userService.sendResults(htmlBody.outerHTML);
+    const htmlBody = document.documentElement;
+    await userService.sendResults(htmlBody);
     toast.success('Результаты отправлены на почту');
   } catch (err) {
     if (err.response?.status === 500) {
