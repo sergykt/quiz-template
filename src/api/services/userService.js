@@ -40,7 +40,6 @@ class UserService {
   async sendResults(htmlBody) {
     const pdfOptions = {
       margin: 10,
-      filename: 'result.pdf',
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 2 },
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
@@ -49,18 +48,13 @@ class UserService {
     const pdf = await html2pdf()
       .from(htmlBody)
       .set(pdfOptions)
-      .outputPdf('blob')
-      .then((pdf) => {
-        const formData = new FormData();
-        formData.append('pdfFile', pdf, 'result.pdf');
-
-        return formData;
-      });
+      .output('arraybuffer');
 
     await axiosInstance.post(sendResultsPath(), pdf, {
       headers: {
-        'Content-Type': 'multipart/form-data',
-      }
+        'Content-Type': 'application/octet-stream',
+      },
+      timeout: 10000,
     });
   }
 }
