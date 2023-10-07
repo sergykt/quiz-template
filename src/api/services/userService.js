@@ -40,8 +40,8 @@ class UserService {
   async sendResults(htmlBody) {
     const pdfOptions = {
       margin: 10,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
+      image: { type: 'jpeg', quality: 0.95 },
+      html2canvas: { scale: 2, windowWidth: 1920 },
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
     };
 
