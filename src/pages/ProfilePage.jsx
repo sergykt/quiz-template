@@ -60,6 +60,7 @@ const ProfilePage = () => {
       {isCompleted &&
         <div className="container">
           <h2 className="title profile__title">Пользователь {username}</h2>
+          {!auth.isActive && <p className="profile__warn">Необходимо подтвердить профиль, проверьте почту</p>}
           <div className="profile__stats">
             <h3 className="profile__subtitle">Ваша статистика</h3>
             <Stats results={results} />
