@@ -10,7 +10,7 @@ const sendResultsPath = () => ['users', 'sendresults'].join('/');
 
 class UserService {
   async create(values) {
-    const response = await axiosInstance.post(usersPath(), values);
+    const response = await axiosInstance.post(usersPath(), values, { timeout: 10000 });
     return response.data;
   }
 

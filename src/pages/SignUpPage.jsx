@@ -1,5 +1,4 @@
-import { useRef, useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useRef, useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
@@ -17,8 +16,8 @@ const validationSchema = Yup.object({
 
 const SignUpPage = () => {
   const auth = useAuth();
-  const navigate = useNavigate();
   const inputEl = useRef(null);
+  const [isCompleted, setCompleted] = useState(false);
 
   useEffect(() => {
     inputEl.current.focus();
@@ -36,7 +35,7 @@ const SignUpPage = () => {
       try {
         const response = await userService.create(values);
         auth.logIn(response);
-        navigate('/');
+        setCompleted(true);
         toast.success('Регистрация успешна');
       } catch (err) {
         if (err.response?.status === 409) {
@@ -52,6 +51,25 @@ const SignUpPage = () => {
       }
     },
   });
+
+  if (isCompleted) {
+    return (
+      <div className="login">
+        <div className="container">
+          <div className="login__success">
+            <h2 className="login__success-title">Регистрация успешно завершена!</h2>
+            <p className="login__success-subtile">
+              Мы отправили вам электронное письмо с инструкциями по активации аккаунта.
+            </p>
+            <p className="login__success-subtile">
+              Пожалуйста, проверьте свою почту и следуйте указанным в письме инструкциям.
+              Если письмо не пришло, проверьте папку "Спам".
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="login">
@@ -78,7 +96,7 @@ const SignUpPage = () => {
             {formik.touched.username && formik.errors.username && (
               <p className="invalid-tooltip">{formik.errors.username}</p>
             )}
-            
+
             <div className="form__control form__control_floating">
               <input
                 ref={inputEl}
