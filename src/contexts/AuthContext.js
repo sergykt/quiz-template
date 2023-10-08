@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const activate = () => {
-    if (isActive === 'false') {
+    if (!isActive) {
       localStorage.setItem('isactive', 'true');
       setActive(true);
       return true;
