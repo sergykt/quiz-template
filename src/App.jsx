@@ -16,6 +16,7 @@ import PageNotFound from './pages/PageNotFound';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 import ProfilePage from './pages/ProfilePage';
+import VerifyPage from './pages/Verify';
 import Footer from './components/Footer';
 
 import { useBurger } from './contexts/BurgerMenuContext';
@@ -38,6 +39,7 @@ const App = () => {
             <Route path="/questions" element={<QuestionManager />} />
             <Route path="/categories" element={<CategoryManager />} />
             <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/verify" element={<VerifyPage />} />
           </Routes>
         </main>
         <Footer />

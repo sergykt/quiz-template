@@ -7,11 +7,11 @@ const loginPath = () => [apiPath, 'users', 'login'].join('/');
 const logOutPath = () => ['users', 'logout'].join('/');
 const resultsPath = () => ['users', 'results'].join('/');
 const sendResultsPath = () => ['users', 'sendresults'].join('/');
+const verifyPath = () => ['users', 'verify'].join('/');
 
 class UserService {
   async create(values) {
-    const response = await axiosInstance.post(usersPath(), values, { timeout: 10000 });
-    return response.data;
+    await axiosInstance.post(usersPath(), values, { timeout: 10000 });
   }
 
   async login(values) {
@@ -26,6 +26,15 @@ class UserService {
       if (err.response?.status !== 404) {
         throw err;
       }
+    }
+  }
+
+  async verify(verifyToken) {
+    try {
+      const response = await axiosInstance.post(verifyPath(), { verifyToken });
+      return response.data;
+    } catch (err) {
+      throw err;
     }
   }
 

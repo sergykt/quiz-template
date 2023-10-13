@@ -3,7 +3,6 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 
-import { useAuth } from '../contexts/AuthContext';
 import Button from '../components/Button';
 import userService from '../api/services/userService';
 
@@ -15,7 +14,6 @@ const validationSchema = Yup.object({
 });
 
 const SignUpPage = () => {
-  const auth = useAuth();
   const inputEl = useRef(null);
   const [isCompleted, setCompleted] = useState(false);
 
@@ -33,8 +31,7 @@ const SignUpPage = () => {
     validationSchema,
     onSubmit: async (values, { setSubmitting }) => {
       try {
-        const response = await userService.create(values);
-        auth.logIn(response);
+        await userService.create(values);
         setCompleted(true);
         toast.success('Регистрация успешна');
       } catch (err) {

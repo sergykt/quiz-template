@@ -37,6 +37,8 @@ const LoginPage = () => {
       } catch (err) {
         if (err.response?.status === 401) {
           toast.error('Неверные имя пользователя или пароль');
+        } else if (err.response?.status === 403) {
+          toast.error('Необходимо подтвердить профиль');
         } else if (err.response?.status === 500) {
           toast.error('Внутренняя ошибка сервера');
         } else {
