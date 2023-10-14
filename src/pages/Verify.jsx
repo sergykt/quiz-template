@@ -29,7 +29,7 @@ const VerifyPage = () => {
       }
     };
 
-    setTimeout(() => verifyUser(), 5000);
+    verifyUser();
   }, [navigate, auth]);
 
   return (
