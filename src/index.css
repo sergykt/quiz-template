@@ -62,6 +62,11 @@ p {
   color: var(--light-color);
 }
 
+.button:disabled {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
 .header {
   -webkit-box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.075);
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.075);
@@ -369,6 +374,11 @@ p {
   box-shadow: 0 0 2px 2px var(--light-blue);
 }
 
+.form__input:disabled {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
 .form__control_floating {
   position: relative;
 }
@@ -592,6 +602,8 @@ p {
 }
 
 .login__body {
+  display: flex;
+  flex-direction: column;
   max-width: 400px;
   margin: 0 auto;
   padding: 20px;
@@ -603,6 +615,7 @@ p {
 
 .login__signup {
   padding-top: 20px;
+  padding-bottom: 20px;
   font-size: 16px;
   text-align: center;
 }
@@ -625,6 +638,12 @@ p {
 .login__success-subtitle {
   font-size: 16px;
   font-weight: 400;
+  margin-bottom: 20px;
+}
+
+.login__warn {
+  font-size: 14px;
+  margin-bottom: 20px;
 }
 
 .profile__title {
@@ -670,6 +689,11 @@ p {
 
 .table td {
   white-space: nowrap;
+}
+
+.verify__loading {
+  font-size: 16px;
+  margin-top: 30px;
 }
 
 .footer__copyright {

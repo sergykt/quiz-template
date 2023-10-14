@@ -40,6 +40,7 @@ const QuestionEdit = ({ questions, categories, targetQuestionId }) => {
       try {
         await questionService.update(targetQuestionId, values);
         toast.success('Вопрос изменен');
+        setSubmitting(false);
       } catch (err) {
         setSubmitting(false);
         if (err.response?.status === 401 || err.response?.status === 403) {

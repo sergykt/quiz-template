@@ -8,10 +8,12 @@ const logOutPath = () => ['users', 'logout'].join('/');
 const resultsPath = () => ['users', 'results'].join('/');
 const sendResultsPath = () => ['users', 'sendresults'].join('/');
 const verifyPath = () => ['users', 'verify'].join('/');
+const sendLinkPath = () => ['users', 'sendlink'].join('/');
 
 class UserService {
   async create(values) {
-    await axiosInstance.post(usersPath(), values, { timeout: 10000 });
+    const response = await axiosInstance.post(usersPath(), values, { timeout: 10000 });
+    return response.data?.id;
   }
 
   async login(values) {
@@ -33,6 +35,14 @@ class UserService {
     try {
       const response = await axiosInstance.post(verifyPath(), { verifyToken });
       return response.data;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async sendLink(id) {
+    try {
+      await axiosInstance.post(sendLinkPath(), { id }, { timeout: 10000 });
     } catch (err) {
       throw err;
     }

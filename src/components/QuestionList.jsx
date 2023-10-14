@@ -8,6 +8,8 @@ import questionService from '../api/services/questionService';
 const QuestionList = ({ questions, categories, setManagerMenu, setTargetQuestionId, setQuestions }) => {
   const navigate = useNavigate();
   const [currentCategory, setCurrentCategory] = useState('all');
+  const [isPending, setPending] = useState(false);
+
   const addActions = () => setManagerMenu('adding');
 
   const editAction = (id) => {
@@ -17,6 +19,7 @@ const QuestionList = ({ questions, categories, setManagerMenu, setTargetQuestion
 
   const deleteAction = async (id) => {
     try {
+      setPending(true);
       await questionService.delete(id);
       setQuestions(questions.filter((item) => item.id !== id));
       toast.success('Вопрос удален');
@@ -31,6 +34,8 @@ const QuestionList = ({ questions, categories, setManagerMenu, setTargetQuestion
       } else {
         toast.error('Что-то пошло не так, проверьте соединение');
       }
+    } finally {
+      setPending(false);
     }
   };
 
@@ -49,7 +54,7 @@ const QuestionList = ({ questions, categories, setManagerMenu, setTargetQuestion
                   <Button className="questions-list__button" onClick={() => editAction(id)}>
                     Редактировать
                   </Button>
-                  <Button className="questions-list__button" onClick={() => deleteAction(id)}>
+                  <Button className="questions-list__button" onClick={() => deleteAction(id)} disabled={isPending}>
                     Удалить
                   </Button>
                 </div>

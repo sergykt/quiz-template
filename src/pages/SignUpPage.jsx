@@ -16,10 +16,24 @@ const validationSchema = Yup.object({
 const SignUpPage = () => {
   const inputEl = useRef(null);
   const [isCompleted, setCompleted] = useState(false);
+  const [userId, setUserId] = useState(null);
+  const [isPending, setPending] = useState(false);
 
   useEffect(() => {
     inputEl.current.focus();
   }, []);
+
+  const sendLink = async () => {
+    try {
+      setPending(true);
+      await userService.sendLink(userId);
+      toast.success('Письмо отправлено на e-mail');
+    } catch (err) {
+      toast.error('Не удалось отправить письмо');
+    } finally {
+      setPending(false);
+    }
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -31,7 +45,8 @@ const SignUpPage = () => {
     validationSchema,
     onSubmit: async (values, { setSubmitting }) => {
       try {
-        await userService.create(values);
+        const newUserId = await userService.create(values);
+        setUserId(newUserId);
         setCompleted(true);
         toast.success('Регистрация успешна');
       } catch (err) {
@@ -55,13 +70,14 @@ const SignUpPage = () => {
         <div className="container">
           <div className="login__success">
             <h2 className="login__success-title">Регистрация успешно завершена!</h2>
-            <p className="login__success-subtile">
-              Мы отправили вам электронное письмо с инструкциями по активации аккаунта.
+            <p className="login__success-subtitle">
+              Мы отправили Вам электронное письмо с инструкциями по активации аккаунта.
             </p>
-            <p className="login__success-subtile">
+            <p className="login__success-subtitle">
               Пожалуйста, проверьте свою почту и следуйте указанным в письме инструкциям.
-              Если письмо не пришло, проверьте папку "Спам".
+              Если письмо не пришло, проверьте папку "Спам". Если вы всё ещё не получили письмо, нажмите "Отправить повторно".
             </p>
+            <Button onClick={() => sendLink()} disabled={isPending}>Отправить повторно</Button>
           </div>
         </div>
       </div>

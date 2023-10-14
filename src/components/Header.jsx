@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useBurger } from "../contexts/BurgerMenuContext";
 import { toast } from 'react-toastify';
@@ -11,6 +12,7 @@ const Header = () => {
   const auth = useAuth();
   const burger = useBurger();
   const { menuActive, setMenuActive } = burger;
+  const [isPending, setPending] = useState(false);
 
   const toggleMenu = () => (e) => {
     e.stopPropagation();
@@ -19,10 +21,10 @@ const Header = () => {
 
   const logOutAction = async () => {
     try {
+      setPending(true);
       await userService.logOut();
       auth.logOut();
       navigate('/');
-      setMenuActive(false);
       toast.info('Выполнен выход пользователя');
     } catch (err) {
       if (err.response?.status === 500) {
@@ -30,6 +32,8 @@ const Header = () => {
       } else {
         toast.error('Что-то пошло не так, проверьте соединение');
       }
+    } finally {
+      setPending(false);
     }
   };
 
@@ -38,7 +42,7 @@ const Header = () => {
     navigate('/login');
   }
 
-  const headerButton = auth.loggedIn ? <Button onClick={() => logOutAction()}>Выйти</Button> : <Button onClick={() => logInAction()}>Войти</Button>;
+  const headerButton = auth.loggedIn ? <Button onClick={() => logOutAction()} disabled={isPending}>Выйти</Button> : <Button onClick={() => logInAction()}>Войти</Button>;
 
   return (
     <header className="header">

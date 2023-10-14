@@ -29,12 +29,13 @@ const VerifyPage = () => {
       }
     };
 
-    verifyUser();
+    setTimeout(() => verifyUser(), 5000);
   }, [navigate, auth]);
 
   return (
     <div className="verify">
       <div className="container">
+        <p className="verify__loading">Идет активация пользователя, пожалуйста, подождите.</p>
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -17,10 +17,24 @@ const LoginPage = () => {
   const auth = useAuth();
   const navigate = useNavigate();
   const inputEl = useRef(null);
+  const [userId, setUserId] = useState(null);
+  const [isPending, setPending] = useState(false);
 
   useEffect(() => {
     inputEl.current.focus();
   }, []);
+
+  const sendLink = async () => {
+    try {
+      setPending(true);
+      await userService.sendLink(userId);
+      toast.success('Письмо отправлено на e-mail');
+    } catch (err) {
+      toast.error('Не удалось отправить письмо');
+    } finally {
+      setPending(false);
+    }
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -38,6 +52,7 @@ const LoginPage = () => {
         if (err.response?.status === 401) {
           toast.error('Неверные имя пользователя или пароль');
         } else if (err.response?.status === 403) {
+          setUserId(err.response.data.id);
           toast.error('Необходимо подтвердить профиль');
         } else if (err.response?.status === 500) {
           toast.error('Внутренняя ошибка сервера');
@@ -89,8 +104,13 @@ const LoginPage = () => {
             <Button type="submit" disabled={formik.isSubmitting}>Войти</Button>
           </form>
           <p className="login__signup">
-            Нет аккаута? <a href="/signup">Регистрация</a>
+            Нет аккаунта? <a href="/signup">Регистрация</a>
           </p>
+          {userId && <>
+            <p className="login__warn">Если необходимо отправить на почту ссылку для подтверждения профиля нажмите "Отправить ссылку"</p>
+            <Button onClick={() => sendLink()} disabled={isPending}>Отправить ссылку</Button>
+          </>
+          }
         </div>
       </div>
     </div>

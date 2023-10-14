@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import { toast } from 'react-toastify';
 
 import Button from './Button';
@@ -6,6 +7,8 @@ import categoryService from '../api/services/categoryService';
 
 const CategoryList = ({ categories, setManagerMenu, setTargetCategoryId, setCategories }) => {
   const navigate = useNavigate();
+  const [isPending, setPending] = useState(false);
+
   const addActions = () => setManagerMenu('adding');
 
   const editAction = (id) => {
@@ -15,6 +18,7 @@ const CategoryList = ({ categories, setManagerMenu, setTargetCategoryId, setCate
 
   const deleteAction = async (id) => {
     try {
+      setPending(true);
       await categoryService.delete(id);
       setCategories(categories.filter((item) => item.id !== id));
       toast.success('Категория удалена');
@@ -31,6 +35,8 @@ const CategoryList = ({ categories, setManagerMenu, setTargetCategoryId, setCate
       } else {
         toast.error('Что-то пошло не так, проверьте соединение');
       }
+    } finally {
+      setPending(false);
     }
   };
 
@@ -55,7 +61,7 @@ const CategoryList = ({ categories, setManagerMenu, setTargetCategoryId, setCate
                   <Button className="questions-list__button" onClick={() => editAction(id)}>
                     Редактировать
                   </Button>
-                  <Button className="questions-list__button" onClick={() => deleteAction(id)}>
+                  <Button className="questions-list__button" onClick={() => deleteAction(id)} disabled={isPending}>
                     Удалить
                   </Button>
                 </div>
