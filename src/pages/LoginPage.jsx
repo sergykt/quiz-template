@@ -5,8 +5,8 @@ import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 
 import { useAuth } from '../contexts/AuthContext';
-import Button from '../components/Button';
 import userService from '../api/services/userService';
+import Button from '../components/Button';
 
 const validationSchema = Yup.object({
   username: Yup.string().trim().required('Это поле обязательно'),

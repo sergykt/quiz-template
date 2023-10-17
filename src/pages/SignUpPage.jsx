@@ -75,7 +75,7 @@ const SignUpPage = () => {
             </p>
             <p className="login__success-subtitle">
               Пожалуйста, проверьте свою почту и следуйте указанным в письме инструкциям.
-              Если письмо не пришло, проверьте папку "Спам". Если вы всё ещё не получили письмо, нажмите "Отправить повторно".
+              Если письмо не пришло, проверьте папку "Спам". Если Вы всё ещё не получили письмо, нажмите "Отправить повторно".
             </p>
             <Button onClick={() => sendLink()} disabled={isPending}>Отправить повторно</Button>
           </div>
@@ -112,7 +112,6 @@ const SignUpPage = () => {
 
             <div className="form__control form__control_floating">
               <input
-                ref={inputEl}
                 className="form__input"
                 name="email"
                 id="email"
